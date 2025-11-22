@@ -109,7 +109,7 @@ export class TreeBranch extends THREE.Object3D
 		for (let i = 0; i < this.leaves.length; ++i)
 		{
 			const x = Math.sign(Math.random() - 0.5) * 0.05;
-			const y = (Math.random() * -4);
+			const y = (Math.random() * -2);
 			this.leaves[i] = new THREE.Vector3(x, y, 0);
 		}
 	}
@@ -119,7 +119,8 @@ export class TreeBranch extends THREE.Object3D
 export interface TreeOptions
 {
 	trunkScene: THREE.Object3D<THREE.Object3DEventMap>;
-	branchGeometry: THREE.BufferGeometry;
+	branchesGeometry: THREE.BufferGeometry[];
+	leftBranchGeometry: THREE.BufferGeometry;
 	leafGeometry: THREE.BufferGeometry;
 
 	canopyOffset: THREE.Vector3;
@@ -127,7 +128,18 @@ export interface TreeOptions
 	canopySizeOuter: Utils.Range;
 
 	branchCount: Utils.Range;
+
+	leafBranchCount: Utils.Range;
 	leavesPerBranch: Utils.Range;
+}
+
+
+interface TreePositionWeight
+{
+	index: number;
+	position: THREE.Vector3;
+	normal: THREE.Vector3;
+	weight: number;
 }
 
 
@@ -136,11 +148,13 @@ export class TreeObject3D extends THREE.Object3D
 	private _appContext: AppContext;
 
 	private _trunkScene: THREE.Object3D<THREE.Object3DEventMap>;
-	private _branchInstancedMesh: THREE.InstancedMesh;
+	private _leafBranchInstancedMesh: THREE.InstancedMesh;
 	private _leafInstancedMesh: THREE.InstancedMesh;
-	private _branchMaterial: THREE.ShaderMaterial;
+	private _leafBranchMaterial: THREE.ShaderMaterial;
+	private _branchInstanceMeshes: THREE.InstancedMesh[];
 
-	private _branches: TreeBranch[];
+	private _branchTransforms: THREE.Matrix4[];
+	private _leafBranches: TreeBranch[];
 	private _leafCount: number;
 
 	private _time: number;
@@ -172,7 +186,7 @@ export class TreeObject3D extends THREE.Object3D
 		this._time = 0;
 		this._force = new THREE.Vector3(0, 0, 0);
 		this._impulse = new THREE.Vector3(0, 0, 0);
-		this._impulseRange = new Utils.Range(4, 8);
+		this._impulseRange = new Utils.Range(8, 16);
 		this._impulseDuration = 0;
 		this._impulseDurationRange = new Utils.Range(1, 2);
 		this._acceleration = new THREE.Vector3(0, 0, 0);
@@ -180,11 +194,11 @@ export class TreeObject3D extends THREE.Object3D
 		this._dummy = new THREE.Object3D();
 
 		// get our numbers first
-		const branchCount = options.branchCount.randomInt();
+		const branchCount = options.leafBranchCount.randomInt();
 		this._canopySizeRange = new Utils.Range(options.canopySizeInner.random(), options.canopySizeOuter.random());
 		this._canopyOffset = options.canopyOffset;
 
-		this._branches = new Array<TreeBranch>(branchCount);
+		this._leafBranches = new Array<TreeBranch>(branchCount);
 		this._leafCount = 0;
 
 		this._forceIncrements = 20;
@@ -221,7 +235,67 @@ export class TreeObject3D extends THREE.Object3D
 
 		this.add(this._trunkScene);
 
-		// branches mesh
+		// branches
+
+		// grab all verts of the trunk with their branch weights (red channel)
+		let {weights, totalWeight} = this.getPositionWeights(<THREE.Mesh>this._trunkScene.getObjectByName("Tree"));
+
+		// determine our branch transforms
+		this._branchTransforms = new Array<THREE.Matrix4>(options.branchCount.randomInt());
+
+		for (let i = 0; i < this._branchTransforms.length; ++i)
+		{
+			const vertToUse = this.extractRandomWeight(weights, totalWeight);
+			if (!vertToUse)
+			{
+				continue;
+			}
+
+			totalWeight -= vertToUse.weight;
+
+			const angle = new THREE.Vector3(0, 1, 0).angleTo(vertToUse.normal);
+			const axis = new THREE.Vector3(0, 1, 0).cross(vertToUse.normal);
+			axis.normalize();
+
+			const tf = new THREE.Matrix4().makeRotationAxis(axis, angle);
+
+			tf.setPosition(vertToUse.position);
+
+			this._branchTransforms[i] = tf;
+		}
+
+		// create branch instances
+		const branchMat = trunkMat.clone();
+		const instMesh = new THREE.InstancedMesh(options.branchesGeometry[0], branchMat, this._branchTransforms.length);
+		this._trunkScene.add(instMesh);
+
+		let {weights: branchWeights} = this.getPositionWeights(options.branchesGeometry[0]);
+		weights = [];
+		totalWeight = 0;
+
+		for (let i = 0; i < this._branchTransforms.length; ++i)
+		{
+			const tf = this._branchTransforms[i];
+			instMesh.setMatrixAt(i, tf);
+
+			// calculate transformed position of each branch weighted position
+			for (let p = 0; p < branchWeights.length; ++p)
+			{
+				const weight = branchWeights[p];
+				const pos = weight.position.clone().applyMatrix4(tf).applyMatrix4(instMesh.matrixWorld);
+				const normal = weight.normal.clone().applyMatrix4(tf).applyMatrix4(instMesh.matrixWorld);
+				weights.push({
+					index: -1,
+					position: pos,
+					normal: normal,
+					weight: weight.weight
+				});
+
+				totalWeight += weight.weight;
+			}
+		}
+
+		// leaf branches mesh
 		const uniforms = {
 			time: {value: 0},
 			forceLookupOffset: {value: new THREE.Vector2(options.canopyOffset.x - this._canopySizeRange.max)},
@@ -231,7 +305,7 @@ export class TreeObject3D extends THREE.Object3D
 			forceTex: {value: this._forceTexture}
 		};
 
-		this._branchMaterial = new THREE.ShaderMaterial(
+		this._leafBranchMaterial = new THREE.ShaderMaterial(
 		{
 			uniforms:       uniforms,
 			vertexShader:   vertexShader,
@@ -243,21 +317,32 @@ export class TreeObject3D extends THREE.Object3D
 			depthTest:      true
 		});
 
-		this._branchInstancedMesh = new THREE.InstancedMesh(options.branchGeometry, this._branchMaterial, this._branches.length);
-		this.add(this._branchInstancedMesh);
+		this._leafBranchInstancedMesh = new THREE.InstancedMesh(options.leftBranchGeometry, this._leafBranchMaterial, this._leafBranches.length);
+		this._leafBranchInstancedMesh.position.set(6, -4, 0);
+		this._leafBranchInstancedMesh.scale.set(1.3, 1.3, 1.3);
+		// this.add(this._leafBranchInstancedMesh);
 	
 		// create branches to find out how many we need, and how many leaves we'll have
 		for (let i = 0; i < branchCount; ++i)
 		{
 			const branchLeafCount = options.leavesPerBranch.randomInt();
 			this._leafCount += branchLeafCount;
-			this._branches[i] = new TreeBranch({leafCount: branchLeafCount, positionCenter: options.canopyOffset, positionSize: this._canopySizeRange});
+			const lb = new TreeBranch({leafCount: branchLeafCount, positionCenter: options.canopyOffset, positionSize: this._canopySizeRange});
+
+			// pick random position from all possible weighted positions
+			const vertToUse = this.extractRandomWeight(weights, totalWeight);
+			totalWeight -= vertToUse.weight;
+
+			lb.position.set(vertToUse.position.x, vertToUse.position.y, vertToUse.position.z);
+			this._leafBranches[i] = lb;
 		}
 
 		// leaves mesh
 		const leafMat = new THREE.MeshBasicMaterial({blending: THREE.NormalBlending, side: THREE.DoubleSide, depthWrite: true, depthTest: true});
 		this._leafInstancedMesh = new THREE.InstancedMesh(options.leafGeometry, leafMat, this._leafCount);
 		this._leafInstancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+		this._leafInstancedMesh.position.set(6, -4, 0);
+		this._leafInstancedMesh.scale.set(1.3, 1.3, 1.3);
 		this.add(this._leafInstancedMesh);
 
 		// init all instance matrices
@@ -270,17 +355,17 @@ export class TreeObject3D extends THREE.Object3D
 		// const redRange = new Utils.Range(0.6, 0.9);
 		// const greenRange = new Utils.Range(0.1, 0.2);
 		// const blueRange = new Utils.Range(0.4, 0.6);
-		for (let b = 0; b < this._branches.length; ++b)
+		for (let b = 0; b < this._leafBranches.length; ++b)
 		{
-			const branch = this._branches[b];
+			const branch = this._leafBranches[b];
 			const branchPos = branch.position;
 
 			this._dummy.position.set(branchPos.x, branchPos.y, branchPos.z);
 			this._dummy.scale.set(1, 1, 1);
-			this._dummy.setRotationFromEuler(this._branches[b].rotation);
+			this._dummy.setRotationFromEuler(this._leafBranches[b].rotation);
 
 			this._dummy.updateMatrix();
-			this._branchInstancedMesh.setMatrixAt(b, this._dummy.matrix);
+			this._leafBranchInstancedMesh.setMatrixAt(b, this._dummy.matrix);
 
 			const leafColour = new THREE.Color(redRange.random(), greenRange.random(), blueRange.random());
 
@@ -303,6 +388,55 @@ export class TreeObject3D extends THREE.Object3D
 		this.update(1, true);
 	}
 
+	getPositionWeights(input: THREE.Mesh | THREE.BufferGeometry)
+	{
+		if (input instanceof THREE.Mesh)
+		{
+			input = input.geometry;
+		}
+
+		const weights: TreePositionWeight[] = [];
+		const posAttr = input.getAttribute("position");
+		const normalAttr = input.getAttribute("normal");
+		const colAttr = input.getAttribute("color");
+		let totalWeight = 0;
+		
+		for (let i = 0; i < input.attributes.position.count; ++i)
+		{
+			const pos = new THREE.Vector3(posAttr.getX(i), posAttr.getY(i), posAttr.getZ(i));
+			const normal = new THREE.Vector3(normalAttr.getX(i), normalAttr.getY(i), normalAttr.getZ(i));
+			const weight = colAttr.getX(i);
+
+			totalWeight += weight;
+
+			weights.push({
+				index: i,
+				position: pos,
+				normal: normal,
+				weight: weight
+			});
+		}
+
+		return {weights, totalWeight};
+	}
+
+	extractRandomWeight(weights: TreePositionWeight[], totalWeight: number)
+	{
+		const weightValue = Math.random() * totalWeight;
+		let count = 0;
+		for (let w = 0; w < weights.length; ++w)
+		{
+			count += weights[w].weight;
+			if (weightValue <= count)
+			{
+				const result = weights.splice(w, 1)[0];
+				return result;
+			}
+		}
+
+		return null;
+	}
+
 	lerp(a: number, b: number, t: number)
 	{
 		return a + (b - a) * t;
@@ -314,7 +448,7 @@ export class TreeObject3D extends THREE.Object3D
 
 		this._time += dt;
 
-		this._branchMaterial.uniforms.time.value = this._time;
+		this._leafBranchMaterial.uniforms.time.value = this._time;
 
 		if (this._impulseDuration <= 0 && Math.floor(prevTime) != Math.floor(this._time) && Math.random() < 0.2)
 		{
@@ -337,7 +471,7 @@ export class TreeObject3D extends THREE.Object3D
 		this._force.addScaledVector(new THREE.Vector3(0, -10, 0), dt);
 
 		this._force.multiplyScalar(1 - (0.5 * dt));
-		this._force.y = Math.max(this._force.y, -5);
+		this._force.y = Math.max(this._force.y, -10);
 		// console.log(dt);
 
 		// clamp force
@@ -384,7 +518,7 @@ export class TreeObject3D extends THREE.Object3D
 		const xRange = maxX - minX;
 		const incRatio = this._forceIncrementTimer / this._forceIncrementInterval;
 
-		this._branchMaterial.uniforms.forceLookupTweak.value = incRatio / this._forceIncrements;
+		this._leafBranchMaterial.uniforms.forceLookupTweak.value = incRatio / this._forceIncrements;
 
 		let leafIndex = 0;
 		
@@ -398,9 +532,9 @@ export class TreeObject3D extends THREE.Object3D
 		
 		
 		// branches
-		for (let b = 0; b < this._branches.length; ++b)
+		for (let b = 0; b < this._leafBranches.length; ++b)
 		{
-			const branch = this._branches[b];
+			const branch = this._leafBranches[b];
 			const branchPos = branch.position;
 			const xRatio = (branchPos.x - minX) / xRange;
 			const rawRatio = ((this._forceIncrements - 1) * xRatio) + incRatio;
@@ -429,14 +563,14 @@ export class TreeObject3D extends THREE.Object3D
 			{
 				const pos = branch.leaves[i];
 				const scale = Math.abs(pos.y / 4);
-				const windOffset = (new THREE.Vector3(branchPos.x * 0.5, pos.y, pos.z)).addScaledVector(force, scale * scale);
+				const windOffset = (new THREE.Vector3(((b % 6) - 3) * 0.5, pos.y, pos.z)).addScaledVector(force, scale * scale * scale);
 				const adjustDir = (new THREE.Vector3(windOffset.x, windOffset.y, windOffset.z)).normalize();
 				const targetPos = (new THREE.Vector3(adjustDir.x, adjustDir.y, adjustDir.z)).multiplyScalar(Math.abs(pos.y));
 				const newPos = new THREE.Vector3(targetPos.x + pos.x, targetPos.y, targetPos.z);
 
 				this._dummy.position.set(newPos.x + branchPos.x, newPos.y + branchPos.y, newPos.z + branchPos.z);
 				this._dummy.scale.set(1, 1, 1);
-				dummyQuat.setFromEuler(new THREE.Euler(0, Math.sin(this._time * (i % 3)) * 0.1, Math.atan2(force.x, -force.y) + Math.sin(this._time * (i % 5)) * 0.02 * forceStrength));
+				dummyQuat.setFromEuler(new THREE.Euler(0, Math.sin(this._time * (i % 3)) * 0.1, Math.atan2(force.x, -force.y) + Math.sin(this._time * (i % 5)) * 0.01 * forceStrength));
 				dummyQuat.multiply(invCamRotQuat);
 				this._dummy.setRotationFromQuaternion(dummyQuat);
 
