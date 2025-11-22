@@ -30,6 +30,7 @@ varying vec3 vColor;
 void main() 
 {
 	mat4 MIMat = modelMatrix * instanceMatrix;
+	mat4 MVIMat = viewMatrix * MIMat;
 	float xRatio = ((MIMat[3].x - forceLookupOffset.x) / forceLookupRange) + forceLookupTweak + (MIMat[3].x / (forceLookupRange * 0.5)) * 0.1;
 	vec2 uv = vec2(xRatio, 0.5);
 	vec3 force = texture2D(forceTex, uv).rgb;
@@ -39,9 +40,9 @@ void main()
 	float scale = abs(pos.y / 4.0);
 	vec3 windOffset = vec3(instanceMatrix[3].x * 0.5, pos.y, pos.z) + (force * scale * scale);
 	vec3 adjustDir = normalize(windOffset);
-	vec3 targetPos = adjustDir * abs(pos.y);
+	vec3 targetPos = vec3(vec2(adjustDir.xy) * abs(pos.y), pos.z);
 	pos = vec3(targetPos.x + pos.x, targetPos.y, targetPos.z);
-	gl_Position = projectionMatrix * viewMatrix * MIMat * vec4(pos, 1.0);
+	gl_Position = projectionMatrix * MVIMat * vec4(pos, 1.0);
 
 	// set color
 	vColor = vec3(0.5, 0.25, 0.08);
@@ -101,13 +102,14 @@ export class TreeBranch extends THREE.Object3D
 		pos.addScaledVector(posDir, options.positionSize.random());
 
 		this.position.set(pos.x, pos.y, pos.z);
+		// this.setRotationFromEuler(new THREE.Euler(0, Math.random() * Math.PI * 2, 0));
 
 		// leaves
 		this.leaves = new Array<THREE.Vector3>(options.leafCount);
 		for (let i = 0; i < this.leaves.length; ++i)
 		{
-			const x = (Math.random() - 0.5) * 0.15;
-			const y = (Math.random() * -3.5) - 0.5;
+			const x = Math.sign(Math.random() - 0.5) * 0.05;
+			const y = (Math.random() * -4);
 			this.leaves[i] = new THREE.Vector3(x, y, 0);
 		}
 	}
@@ -131,6 +133,8 @@ export interface TreeOptions
 
 export class TreeObject3D extends THREE.Object3D
 {
+	private _appContext: AppContext;
+
 	private _trunkScene: THREE.Object3D<THREE.Object3DEventMap>;
 	private _branchInstancedMesh: THREE.InstancedMesh;
 	private _leafInstancedMesh: THREE.InstancedMesh;
@@ -159,9 +163,11 @@ export class TreeObject3D extends THREE.Object3D
 	private _dummy: THREE.Object3D;
 
 
-	constructor(options: TreeOptions)
+	constructor(appContext: AppContext, options: TreeOptions)
 	{
 		super();
+
+		this._appContext = appContext;
 
 		this._time = 0;
 		this._force = new THREE.Vector3(0, 0, 0);
@@ -233,7 +239,7 @@ export class TreeObject3D extends THREE.Object3D
 			transparent:    false,
 			blending:       THREE.NormalBlending,
 			vertexColors:   true,
-			depthWrite:     false,
+			depthWrite:     true,
 			depthTest:      true
 		});
 
@@ -249,7 +255,7 @@ export class TreeObject3D extends THREE.Object3D
 		}
 
 		// leaves mesh
-		const leafMat = new THREE.MeshPhongMaterial({blending: THREE.NormalBlending} );
+		const leafMat = new THREE.MeshBasicMaterial({blending: THREE.NormalBlending, side: THREE.DoubleSide, depthWrite: true, depthTest: true});
 		this._leafInstancedMesh = new THREE.InstancedMesh(options.leafGeometry, leafMat, this._leafCount);
 		this._leafInstancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
 		this.add(this._leafInstancedMesh);
@@ -271,6 +277,7 @@ export class TreeObject3D extends THREE.Object3D
 
 			this._dummy.position.set(branchPos.x, branchPos.y, branchPos.z);
 			this._dummy.scale.set(1, 1, 1);
+			this._dummy.setRotationFromEuler(this._branches[b].rotation);
 
 			this._dummy.updateMatrix();
 			this._branchInstancedMesh.setMatrixAt(b, this._dummy.matrix);
@@ -381,6 +388,14 @@ export class TreeObject3D extends THREE.Object3D
 
 		let leafIndex = 0;
 		
+		const camGroundPlanePosition = this._appContext.contentCamera.position.clone();
+		camGroundPlanePosition.y = 0;
+		camGroundPlanePosition.normalize();
+		const angle = new THREE.Vector3(0, 0, 1).angleTo(camGroundPlanePosition);
+		const rightWorld = new THREE.Vector3(0, camGroundPlanePosition.x < 0 ? -1 : 1, 0);
+		const invCamRotQuat = new THREE.Quaternion().setFromAxisAngle(rightWorld, angle);
+		const dummyQuat = new THREE.Quaternion();
+		
 		
 		// branches
 		for (let b = 0; b < this._branches.length; ++b)
@@ -421,7 +436,9 @@ export class TreeObject3D extends THREE.Object3D
 
 				this._dummy.position.set(newPos.x + branchPos.x, newPos.y + branchPos.y, newPos.z + branchPos.z);
 				this._dummy.scale.set(1, 1, 1);
-				this._dummy.setRotationFromEuler(new THREE.Euler(0, Math.sin(this._time * (i % 3)) * 0.1, Math.atan2(force.y, force.x) + Math.sin(this._time * (i % 5)) * 0.02 * forceStrength));
+				dummyQuat.setFromEuler(new THREE.Euler(0, Math.sin(this._time * (i % 3)) * 0.1, Math.atan2(force.x, -force.y) + Math.sin(this._time * (i % 5)) * 0.02 * forceStrength));
+				dummyQuat.multiply(invCamRotQuat);
+				this._dummy.setRotationFromQuaternion(dummyQuat);
 
 				this._dummy.updateMatrix();
 				this._leafInstancedMesh.setMatrixAt(leafIndex, this._dummy.matrix);

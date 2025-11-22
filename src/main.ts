@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import {AppContext} from "./appContext.js";
 import {LandingScreen} from "./landingScreen.js";
 import { branchMesh, leafMesh, treeTrunkMesh } from "./resources.js";
@@ -26,7 +27,9 @@ function startRendering()
 	const branchObject = appContext.meshManager.getLoadedMesh("branch.obj").getObjectByName("Branch");
 	const branchMesh = branchObject instanceof THREE.Mesh ? <THREE.Mesh>(branchObject) : null;
 
-	const tree = new TreeObject3D({
+	const cameraControls = new OrbitControls(appContext.contentCamera, appContext.renderer.domElement);
+
+	const tree = new TreeObject3D(appContext, {
 		branchCount: new Utils.Range(150, 200),
 		branchGeometry: branchMesh.geometry,
 		leafGeometry: leafMesh.geometry,
@@ -46,7 +49,7 @@ function startRendering()
 
 		if (lastTime > 0)
 		{
-			dt = (seconds - lastTime);
+			dt = Math.min(seconds - lastTime, 1);
 		}
 		lastTime = seconds;
 
@@ -54,6 +57,7 @@ function startRendering()
 
 		appContext.contentInteractManager.update(dt);
 		appContext.navigation.update(dt);
+		cameraControls.update();
 
 		tree.update(dt);
 
