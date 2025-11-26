@@ -24,7 +24,7 @@ export interface ContentData
 }
 
 
-class ContentType
+export class ContentType
 {
 	protected _appContext: AppContext;
 	protected _parent: THREE.Object3D;
@@ -99,11 +99,11 @@ class ContentType
 export interface ContentTextData
 {
 	text: string;
-	maxWidth: number;
+	maxWidth: number | Utils.OrientationValue;
 	worldX: number;
 	worldY: number;
-	pivotX: number;
-	pivotY: number;
+	pivotX: number | Utils.OrientationValue;
+	pivotY: number | Utils.OrientationValue;
 }
 
 export class ContentText extends ContentType
@@ -134,12 +134,12 @@ export class ContentText extends ContentType
 		this._textGroup = new THREE.Group();
 		this._textGroup.scale.set(0, 0, 0);
 
-		this._backingFrame = new BackingFrame(0.2);
+		const backingFrame = this._backingFrame = new BackingFrame(0.2);
 
 		this._anchor.add(this._textGroup);
 			this._textGroup.add(this._backingFrame);
 
-		this._text = new TextBox(this._textGroup, 
+		const text = this._text = new TextBox(this._textGroup, 
 		{
 			cssClass: "textBody",
 			maxWidth: Utils.getOrientationValue(textData.maxWidth),
@@ -149,11 +149,11 @@ export class ContentText extends ContentType
 			pivotY: Utils.getOrientationValue(textData.pivotY),
 			text: textData.text
 		});
-		this._text.onSizeChanged = function(width, height)
+		this._text.onSizeChanged = function(width: number, height: number)
 		{
-			this.backingFrame.setSize(width + 0.1, height + 0.1);
-			this.backingFrame.position.set(width * (-this.text.pivotX + 0.5), height * (-this.text.pivotY + 0.5), 0);
-		}.bind(this);
+			backingFrame.setSize(width + 0.1, height + 0.1);
+			backingFrame.position.set(width * (-text.options.pivotX + 0.5), height * (-text.options.pivotY + 0.5), 0);
+		};
 	}
 
 	override dispose()

@@ -15,7 +15,7 @@ export class MeshManager
 
 	async loadOBJ(path: string)
 	{
-		const name = path.split('\\').pop().split('/').pop();
+		const name = path;//path.split('\\').pop().split('/').pop();
 
 		if (this._cache.hasOwnProperty(name))
 		{
@@ -27,7 +27,7 @@ export class MeshManager
 			this._objLoader.load(path, 
 				(obj) => 
 				{
-					console.log(`Loaded ${path}`);
+					// console.log(`Loaded ${path}`);
 					//mesh.material = new THREE.MeshBasicMaterial();
 		
 					this._cache[name] = obj;

@@ -9,14 +9,15 @@ export interface HtmlContentOptions
 	maxHeight?: number;
 	pivotX?: number;
 	pivotY?: number;
-	worldX: number;
-	worldY: number;
+	worldX?: number;
+	worldY?: number;
 	cssClass?: string;
 }
 
 export class HtmlContent extends THREE.Object3D
 {
-	protected _options: HtmlContentOptions = null;
+	options: HtmlContentOptions = null;
+	
 	protected _element: HTMLElement = null;
 	protected _canvasScaler: CanvasScaler = null;
 	protected _haveOptionsChanged: boolean = false;
@@ -29,7 +30,7 @@ export class HtmlContent extends THREE.Object3D
 	{
 		super();
 
-		this._options = options;
+		this.options = options;
 
 		this._element = document.createElement("div");
 		this._element.classList.add(options.cssClass);
@@ -62,10 +63,10 @@ export class HtmlContent extends THREE.Object3D
 		// only update values we've been given
 		for (let key in options)
 		{
-			this._options[key] = options[key];
+			this.options[key] = options[key];
 		}
 		
-		(this as THREE.Object3D).position.set(this._options.worldX, this._options.worldY, 0);
+		(this as THREE.Object3D).position.set(this.options.worldX, this.options.worldY, 0);
 
 		this._haveOptionsChanged = true;
 	}
@@ -102,17 +103,17 @@ export class HtmlContent extends THREE.Object3D
 			return;
 		}
 
-		this._element.style.width = Math.round(this._canvasScaler.pixelsPerWorldUnit() * this._options.maxWidth * HtmlContent.tempScale.x) + "px";
+		this._element.style.width = Math.round(this._canvasScaler.pixelsPerWorldUnit() * this.options.maxWidth * HtmlContent.tempScale.x) + "px";
 
-		if (this._options.maxHeight)
+		if (this.options.maxHeight)
 		{
-			this._element.style.height = Math.round(this._canvasScaler.pixelsPerWorldUnit() * this._options.maxHeight * HtmlContent.tempScale.y) + "px";
+			this._element.style.height = Math.round(this._canvasScaler.pixelsPerWorldUnit() * this.options.maxHeight * HtmlContent.tempScale.y) + "px";
 		}
 
 		let clientWidth = this._element.clientWidth;
 		let clientHeight = this._element.clientHeight;
-		let left = this._canvasScaler.canvas().width * 0.5 + this._canvasScaler.pixelsPerWorldUnit() * HtmlContent.tempPos.x - clientWidth * this._options.pivotX;
-		let top = this._canvasScaler.canvas().height * 0.5 - this._canvasScaler.pixelsPerWorldUnit() * HtmlContent.tempPos.y - clientHeight * (1 - this._options.pivotY);
+		let left = this._canvasScaler.canvas().width * 0.5 + this._canvasScaler.pixelsPerWorldUnit() * HtmlContent.tempPos.x - clientWidth * this.options.pivotX;
+		let top = this._canvasScaler.canvas().height * 0.5 - this._canvasScaler.pixelsPerWorldUnit() * HtmlContent.tempPos.y - clientHeight * (1 - this.options.pivotY);
 
 		if (left < 0)
 		{

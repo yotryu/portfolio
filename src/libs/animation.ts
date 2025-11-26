@@ -16,7 +16,7 @@ export enum KeyframeType
 
 export type KeyframeValueFunc<Type> = () => Type;
 
-export class Keyframe<Type>
+class Keyframe<Type>
 {
 	time: number;
 	value: Type;
@@ -184,10 +184,11 @@ export interface AnimationTrack
 export interface AnimatorBinding
 {
 	update: (value: any) => void;
-	undefinedGetter: () => any;
+	undefinedGetter?: () => any;
 }
 
 export type AnimationTracks = Record<string, AnimationTrack>;
+export type AnimationCollection = Record<string, AnimationTracks>;
 export type AnimatorBindingRecord = Record<string, AnimatorBinding>;
 export type AnimatorDurationRecord = Record<string, number>;
 export type AnimatorFinishDelegate = (anim: AnimationTracks) => void;
@@ -253,6 +254,16 @@ export class Animator
 	isAnimating()
 	{
 		return this._stillAnimating;
+	}
+
+	getCurrentTracks()
+	{
+		return this._animationTracks;
+	}
+
+	setTime(time: number)
+	{
+		this._timer = time;
 	}
 
 	update(dt: number)

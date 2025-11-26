@@ -47,6 +47,11 @@ export class Anchorable extends THREE.Object3D
 		this._scaler = scaler;
 	}
 
+	options()
+	{
+		return this._options;
+	}
+
 	findScaler()
 	{
 		let check = this.parent;

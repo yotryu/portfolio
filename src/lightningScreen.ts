@@ -1,8 +1,9 @@
-import { AppScreen } from "./appScreen.js";
+import { AppScreen, PageContentTabData } from "./appScreen.js";
 import { Anchorable } from "./canvasScaler.js";
 import { ImageLink } from "./imageLink.js";
 import * as ContentTypes from "./pageContentTypes.js";
 import * as Constants from "./constants.js";
+import { AppContext } from "./appContext.js";
 
 "use strict"
 
@@ -10,7 +11,7 @@ const screenshotWidth = 1.2;
 const screenshotHeight = screenshotWidth * 1.778;
 const padding = 0.5;
 
-const itemConfigs = 
+const itemConfigs: PageContentTabData[] = 
 [
 	{
 		id: "overview",
@@ -84,115 +85,118 @@ const itemConfigs =
 		[
 			{
 				type: ContentTypes.ContentTable,
-				position:
+				table:
 				{
-					xPercent: 0.5,
-					yPercent: 0.5,
-					xAdd: 0,
-					yAdd: 0,
-					widthPercent: 1,
-					widthAdd: 0,
-					heightAdd: 0,
-					pivotX: 0.5,
-					pivotY: 0.51
+					position:
+					{
+						xPercent: 0.5,
+						yPercent: 0.5,
+						xAdd: 0,
+						yAdd: 0,
+						widthPercent: 1,
+						widthAdd: 0,
+						heightAdd: 0,
+						pivotX: 0.5,
+						pivotY: 0.51
+					},
+					cellHeight: screenshotHeight + padding,
+					cellWidth: screenshotWidth + padding,
+					cellsIgnoreScalerScale: true,
+					cellData:
+					[
+						// omit anchorable since table will fill it in
+						{
+							type: ContentTypes.ContentThumbnail,
+							thumbnail:
+							{
+								maxWidth: screenshotWidth,
+								maxHeight: screenshotHeight,
+								thumbPath: "/resources/screenshots/lightning/5_01.jpg",
+								imagePath: "/resources/screenshots/lightning/5_01.png"
+							}
+						},
+						{
+							type: ContentTypes.ContentThumbnail,
+							thumbnail:
+							{
+								maxWidth: screenshotWidth,
+								maxHeight: screenshotHeight,
+								thumbPath: "/resources/screenshots/lightning/5_02.jpg",
+								imagePath: "/resources/screenshots/lightning/5_02.png"
+							}
+						},
+						{
+							type: ContentTypes.ContentThumbnail,
+							thumbnail:
+							{
+								maxWidth: screenshotWidth,
+								maxHeight: screenshotHeight,
+								thumbPath: "/resources/screenshots/lightning/5_03.jpg",
+								imagePath: "/resources/screenshots/lightning/5_03.png"
+							}
+						},
+						{
+							type: ContentTypes.ContentThumbnail,
+							thumbnail:
+							{
+								maxWidth: screenshotWidth,
+								maxHeight: screenshotHeight,
+								thumbPath: "/resources/screenshots/lightning/5_04.jpg",
+								imagePath: "/resources/screenshots/lightning/5_04.png"
+							}
+						},
+						{
+							type: ContentTypes.ContentThumbnail,
+							thumbnail:
+							{
+								maxWidth: screenshotWidth,
+								maxHeight: screenshotHeight,
+								thumbPath: "/resources/screenshots/lightning/5_05.jpg",
+								imagePath: "/resources/screenshots/lightning/5_05.png"
+							}
+						},
+						{
+							type: ContentTypes.ContentThumbnail,
+							thumbnail:
+							{
+								maxWidth: screenshotWidth,
+								maxHeight: screenshotHeight,
+								thumbPath: "/resources/screenshots/lightning/5_06.jpg",
+								imagePath: "/resources/screenshots/lightning/5_06.png"
+							}
+						},
+						{
+							type: ContentTypes.ContentThumbnail,
+							thumbnail:
+							{
+								maxWidth: screenshotWidth,
+								maxHeight: screenshotHeight,
+								thumbPath: "/resources/screenshots/lightning/5_07.jpg",
+								imagePath: "/resources/screenshots/lightning/5_07.png"
+							}
+						},
+						{
+							type: ContentTypes.ContentThumbnail,
+							thumbnail:
+							{
+								maxWidth: screenshotWidth,
+								maxHeight: screenshotHeight,
+								thumbPath: "/resources/screenshots/lightning/5_08.jpg",
+								imagePath: "/resources/screenshots/lightning/5_08.png"
+							}
+						},
+						{
+							type: ContentTypes.ContentThumbnail,
+							thumbnail:
+							{
+								maxWidth: screenshotWidth,
+								maxHeight: screenshotHeight,
+								thumbPath: "/resources/screenshots/lightning/5_09.jpg",
+								imagePath: "/resources/screenshots/lightning/5_09.png"
+							}
+						},
+					]
 				},
-				cellWidth: screenshotWidth + padding,
-				cellHeight: screenshotHeight + padding,
-				cellsIgnoreScalerScale: true,
-				cellData:
-				[
-					// omit anchorable since table will fill it in
-					{
-						type: ContentTypes.ContentThumbnail,
-						thumbnail:
-						{
-							maxWidth: screenshotWidth,
-							maxHeight: screenshotHeight,
-							thumbPath: "/resources/screenshots/lightning/5_01.jpg",
-							imagePath: "/resources/screenshots/lightning/5_01.png"
-						}
-					},
-					{
-						type: ContentTypes.ContentThumbnail,
-						thumbnail:
-						{
-							maxWidth: screenshotWidth,
-							maxHeight: screenshotHeight,
-							thumbPath: "/resources/screenshots/lightning/5_02.jpg",
-							imagePath: "/resources/screenshots/lightning/5_02.png"
-						}
-					},
-					{
-						type: ContentTypes.ContentThumbnail,
-						thumbnail:
-						{
-							maxWidth: screenshotWidth,
-							maxHeight: screenshotHeight,
-							thumbPath: "/resources/screenshots/lightning/5_03.jpg",
-							imagePath: "/resources/screenshots/lightning/5_03.png"
-						}
-					},
-					{
-						type: ContentTypes.ContentThumbnail,
-						thumbnail:
-						{
-							maxWidth: screenshotWidth,
-							maxHeight: screenshotHeight,
-							thumbPath: "/resources/screenshots/lightning/5_04.jpg",
-							imagePath: "/resources/screenshots/lightning/5_04.png"
-						}
-					},
-					{
-						type: ContentTypes.ContentThumbnail,
-						thumbnail:
-						{
-							maxWidth: screenshotWidth,
-							maxHeight: screenshotHeight,
-							thumbPath: "/resources/screenshots/lightning/5_05.jpg",
-							imagePath: "/resources/screenshots/lightning/5_05.png"
-						}
-					},
-					{
-						type: ContentTypes.ContentThumbnail,
-						thumbnail:
-						{
-							maxWidth: screenshotWidth,
-							maxHeight: screenshotHeight,
-							thumbPath: "/resources/screenshots/lightning/5_06.jpg",
-							imagePath: "/resources/screenshots/lightning/5_06.png"
-						}
-					},
-					{
-						type: ContentTypes.ContentThumbnail,
-						thumbnail:
-						{
-							maxWidth: screenshotWidth,
-							maxHeight: screenshotHeight,
-							thumbPath: "/resources/screenshots/lightning/5_07.jpg",
-							imagePath: "/resources/screenshots/lightning/5_07.png"
-						}
-					},
-					{
-						type: ContentTypes.ContentThumbnail,
-						thumbnail:
-						{
-							maxWidth: screenshotWidth,
-							maxHeight: screenshotHeight,
-							thumbPath: "/resources/screenshots/lightning/5_08.jpg",
-							imagePath: "/resources/screenshots/lightning/5_08.png"
-						}
-					},
-					{
-						type: ContentTypes.ContentThumbnail,
-						thumbnail:
-						{
-							maxWidth: screenshotWidth,
-							maxHeight: screenshotHeight,
-							thumbPath: "/resources/screenshots/lightning/5_09.jpg",
-							imagePath: "/resources/screenshots/lightning/5_09.png"
-						}
-					},
-				]
 			}
 		]
 	},
@@ -302,12 +306,16 @@ const itemConfigs =
 
 export class LightningScreen extends AppScreen
 {
-	constructor(context)
+	private _appStoreAnchor: Anchorable;
+	private _appStoreLink: ImageLink;
+
+
+	constructor(context: AppContext)
 	{
 		super(context, itemConfigs);
 
-		this.appStoreAnchor = new Anchorable(-2, -1.5, 1, 1);
-		this.appStoreLink = new ImageLink(this.appStoreAnchor, 
+		this._appStoreAnchor = new Anchorable({refX: -2, refY: -1.5, anchorX: 1, anchorY: 1}, null);
+		this._appStoreLink = new ImageLink(this._appStoreAnchor, 
 		{
 			cssClass: "imageLink",
 			maxWidth: 4,
@@ -320,21 +328,21 @@ export class LightningScreen extends AppScreen
 			linkUrl: "https://play.google.com/store/apps/details?id=com.jonathanlaw.lightningwallpaper"
 		});
 
-		this.appContext.contentScaler.add(this.appStoreAnchor);
+		this._appContext.contentScaler.add(this._appStoreAnchor);
 	}
 
 	dispose()
 	{
 		super.dispose();
 
-		this.appStoreLink.dispose();
-		this.appContext.contentScaler.remove(this.appStoreAnchor);
+		this._appStoreLink.dispose();
+		this._appContext.contentScaler.remove(this._appStoreAnchor);
 	}
 
-	update(dt)
+	update(dt: number)
 	{
 		super.update(dt);
 
-		this.appStoreLink.update();
+		this._appStoreLink.update();
 	}
 }

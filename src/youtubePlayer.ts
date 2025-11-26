@@ -18,8 +18,8 @@ export class YoutubePlayer extends HtmlContent
 		super(attachTo, options);
 
 		this._video = document.createElement("iframe");
-		this._video.width = this._options.maxWidth.toString();
-		this._video.height = this._options.maxHeight.toString();
+		this._video.width = this.options.maxWidth.toString();
+		this._video.height = this.options.maxHeight.toString();
 		this._video.src = options.url;
 		this._video.allowFullscreen = true;
 		this._video.style.border = "0";

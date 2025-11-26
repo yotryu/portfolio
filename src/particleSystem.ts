@@ -153,9 +153,9 @@ export interface ParticleOptions
 	startAngle?: Utils.Range;
 	startAlpha?: Utils.Range;
 
-	sizeAnim?: Animation.Animation;
-	angleAnim?: Animation.Animation;
-	alphaAnim?: Animation.Animation;
+	sizeAnim?: Animation.AnimationTyped<number>;
+	angleAnim?: Animation.AnimationTyped<number>;
+	alphaAnim?: Animation.AnimationTyped<number>;
 }
 
 export interface ParticleEmissionOptions

@@ -18,7 +18,7 @@ export interface InteractManagerTouch
 	allowClick: boolean;
 }
 
-export type InteractManagerClickDelegate = (hit: any) => void;
+export type InteractManagerClickDelegate = (hit: THREE.Intersection<THREE.Object3D>) => void;
 
 export class InteractManager
 {
@@ -28,7 +28,7 @@ export class InteractManager
 	private _trackedObjects: THREE.Mesh[];
 	private _interactPoint: THREE.Vector2;
 	private _raycaster: THREE.Raycaster;
-	private _hitObjects: any[]; // TODO: figure this out
+	private _hitObjects: THREE.Intersection<THREE.Object3D>[];
 	private _clickCamera: THREE.Camera;
 	private _canvasScaler: CanvasScaler;
 	private _anchor: Anchorable;

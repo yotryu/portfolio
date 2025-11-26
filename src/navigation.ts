@@ -1,5 +1,5 @@
 import { AppScreen, Page } from "./appScreen.js";
-import {LandingScreen} from "./landingScreen.js";
+import {LandingScreen, LandingScreenItem} from "./landingScreen.js";
 import {LightningScreen} from "./lightningScreen.js";
 import {GeoGridScreen} from "./geogridScreen.js";
 import { AppContext } from "./appContext.js";
@@ -8,9 +8,15 @@ import { AppContext } from "./appContext.js";
 
 export interface NavData
 {
-	type: AppScreen;
+	type: typeof AppScreen | typeof LandingScreen;
 	title: string;
 	path: string;
+}
+
+interface NextScreenData
+{
+	type: typeof AppScreen | typeof LandingScreen;
+	index: number;
 }
 
 export const NavApps: NavData[] = 
@@ -52,11 +58,11 @@ export class Navigation
 	private _siteUrl: string;
 	private _lastUrl: string;
 	private _currentPath: string;
-	private _originData: Page;
+	private _originData: Page | LandingScreenItem;
 
 	private _landingScreen: LandingScreen;
-	private _currentScreen: AppScreen;
-	private _nextScreen: AppScreen;
+	private _currentScreen: AppScreen | LandingScreen;
+	private _nextScreen: NextScreenData;
 	
 
 
@@ -78,10 +84,15 @@ export class Navigation
 	{
 		this._landingScreen = new LandingScreen(this._appContext);
 		this._currentScreen = this._landingScreen;
-		this._currentScreen.show();
+		this._landingScreen.show();
 	}
 
-	setNewDestination(path: string, data: Page)
+	getCurrentPath()
+	{
+		return this._currentPath;
+	}
+
+	setNewDestination(path: string, data: Page | LandingScreenItem)
 	{
 		this._originData = data;
 		location.href = this._siteUrl + path;
@@ -89,7 +100,7 @@ export class Navigation
 		this.navigateToUrl(location.href);
 	}
 
-	getScreenTypeForUrl(options: NavData[], url: string)
+	getScreenTypeForUrl(options: NavData[], url: string): NextScreenData
 	{
 		for (let i = 0; i < options.length; ++i)
 		{
@@ -104,10 +115,31 @@ export class Navigation
 		return null;
 	}
 
-	navigateToUrl(url)
+	private onHideDone(originData: Page | LandingScreenItem)
+	{
+		if (this._currentScreen != this._landingScreen)
+		{
+			// remove previous screen from memory
+			this._currentScreen.dispose();
+		}
+
+		if (this._nextScreen.type == LandingScreen)
+		{
+			// special case, since this is the common root of all other "pages"
+			this._currentScreen = this._landingScreen;
+		}
+		else
+		{
+			this._currentScreen = new this._nextScreen.type(this._appContext, null);
+		}
+		
+		this._currentScreen.show(originData);
+	}
+
+	navigateToUrl(url: string)
 	{
 		this._currentPath = url.slice(url.lastIndexOf("/"));
-		let nextScreen = null;
+		let nextScreen: NextScreenData = null;
 
 		// attempt to navigate to an app screen
 		nextScreen = this.getScreenTypeForUrl(NavApps, url) || null;
@@ -133,31 +165,10 @@ export class Navigation
 		{
 			this._nextScreen = nextScreen;
 
-			function hideDone(originData)
-			{
-				if (this.currentScreen != this.landingScreen)
-				{
-					// remove previous screen from memory
-					this.currentScreen.dispose();
-				}
-
-				if (this.nextScreen.type == LandingScreen)
-				{
-					// special case, since this is the common root of all other "pages"
-					this.currentScreen = this.landingScreen;
-				}
-				else
-				{
-					this.currentScreen = new this.nextScreen.type(this.appContext);
-				}
-				
-				this.currentScreen.show(originData);
-			}
-
 			// need to navigate to a new screen, so tell the current screen to hide
-			this._currentScreen.hide(hideDone.bind(this), this._originData);
+			this._currentScreen.hide(this.onHideDone.bind(this), this._originData);
 		}
-		else if (this._currentScreen.onPathChanged)
+		else if (this._currentScreen instanceof AppScreen && this._currentScreen.onPathChanged)
 		{
 			this._currentScreen.onPathChanged(this._currentPath);
 		}
@@ -166,7 +177,7 @@ export class Navigation
 		this._lastUrl = url;
 	}
 
-	update(dt)
+	update(dt: number)
 	{
 		if (location.href != this._lastUrl)
 		{

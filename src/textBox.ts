@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import { HtmlContent, HtmlContentOptions } from "./htmlContent.js"
 
 "use strict"
@@ -18,7 +19,7 @@ export class TextBox extends HtmlContent
 	public onSizeChanged: TextBoxSizeChangedDelegate;
 
 
-	constructor(attachTo, options)
+	constructor(attachTo: THREE.Object3D, options: TextBoxOptions)
 	{
 		super(attachTo, options);
 

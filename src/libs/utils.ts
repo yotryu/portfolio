@@ -51,7 +51,7 @@ export function getOrientationValue(value: number | OrientationValue): number
         return <number>value;
     }
 
-    if (this.canvas.clientWidth > this.canvas.clientHeight)
+    if (document.documentElement.clientWidth > document.documentElement.clientHeight)
     {
         // landscape
         return value.l;
@@ -59,4 +59,9 @@ export function getOrientationValue(value: number | OrientationValue): number
 
     // portrait
     return value.p;
+}
+
+export function lerp(min: number, max: number, ratio: number)
+{
+    return min + (max - min) * ratio;
 }
