@@ -74,11 +74,17 @@ export class MeshManager
 	// 	);
 	// }
 
-	getLoadedMesh(name: string)
+	getLoadedMesh(name: string, nodeName?: string)
 	{
 		if (this._cache.hasOwnProperty(name))
 		{
-			return this._cache[name];
+			const base = this._cache[name];
+			if (nodeName)
+			{
+				return base.getObjectByName(nodeName);
+			}
+
+			return base;
 		}
 
 		return null;

@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import {AppContext} from "./appContext.js";
 import {LandingScreen} from "./landingScreen.js";
-import { branchesMesh, branchMesh, leafMesh, treeTrunkMesh, unitSphereMesh } from "./resources.js";
+import { branchesMesh, branchMesh, leafMesh, pathRingMesh, treeTrunkMesh, unitSphereMesh } from "./resources.js";
 import { TreeObject3D } from "./treeObject.js";
 import * as Utils from "./libs/utils.js";
 
@@ -57,6 +57,7 @@ async function main()
 	appContext = new AppContext(canvas);
 
 	await appContext.meshManager.loadOBJ(unitSphereMesh);
+	await appContext.meshManager.loadOBJ(pathRingMesh);
 
 	function loadingFadeOut()
 	{
@@ -71,6 +72,11 @@ async function main()
 	}
 
 	loadingFadeOut();
+
+	appContext.contentCamera.position.set(0, 10, 15);
+	appContext.contentCamera.lookAt(0, -2, 0);
+
+	appContext.navigation.init();
 
 	// const minTime = 0;
 	// const loadTime = window.performance.timing.domContentLoadedEventEnd-window.performance.timing.navigationStart;

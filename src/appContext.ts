@@ -75,9 +75,6 @@ export class AppContext
 		this.meshManager = meshManager;
 		this.textureManager = textureManager;
 		this.navigation = navManager;
-
-		// needs to happen after context properties are set, as this creates the LandingScreen which needs them
-		navManager.init();
 	}
 
 	resizeCanvasesAsNeeded()

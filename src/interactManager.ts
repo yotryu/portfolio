@@ -84,7 +84,7 @@ export class InteractManager
 		this._anchor.RepositionCallback = this._hoverParticles.setPointSizeFromCanvasScaler.bind(this._hoverParticles);
 
 		this._canvasScaler.add(this._anchor);
-			this._anchor.add(this._hoverParticles);
+			//this._anchor.add(this._hoverParticles);
 
 		window.addEventListener("mouseover", this.onMouseOver.bind(this), false);
 		window.addEventListener("mouseout", this.onMouseOut.bind(this), false);

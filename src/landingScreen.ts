@@ -21,8 +21,12 @@ interface ItemOptions
 	title: string,
 	anchor: Anchorable;
 	outerMesh: THREE.Mesh;
-	innerMesh: THREE.Mesh;
 	iconMesh: THREE.Mesh;
+	ringScene: THREE.Object3D<THREE.Object3DEventMap>;
+	pathAxis: THREE.Vector3;
+	pathSpeed: number;
+	pathRadius: number;
+	pathStartAngle: number;
 	particleOptions: Particles.ParticleSystemOptions;
 	animations: Animation.AnimationCollection;
 }
@@ -37,8 +41,8 @@ export class LandingScreenItem
 	private _anchor: Anchorable;
 	private _anchorStart: THREE.Vector4;
 	private _outerMesh: THREE.Mesh;
-	private _innerMesh: THREE.Mesh;
 	private _iconMesh: THREE.Mesh;
+	private _ring: THREE.Object3D<THREE.Object3DEventMap>;
 	private _particles: Particles.ParticleSystem;
 	private _group: THREE.Group;
 	private _titleGroup: THREE.Group;
@@ -48,6 +52,11 @@ export class LandingScreenItem
 	private _angle: number;
 	private _y: number;
 	private _yScale: number;
+
+	private _pathAxis: THREE.Vector3;
+	private _pathAngle: number;
+	private _pathSpeed: number;
+	private _pathRadius: number;
 
 
 	constructor(context: AppContext, options: ItemOptions)
@@ -66,22 +75,49 @@ export class LandingScreenItem
 			Utils.getOrientationValue(anchorOpts.anchorX),
 			Utils.getOrientationValue(anchorOpts.anchorY));
 
-		this._outerMesh = options.outerMesh;
-		this._innerMesh = options.innerMesh;
+		this._outerMesh = options.outerMesh.clone();
+
+		const outerMat = new THREE.MeshBasicMaterial({opacity: 0.2, blending: THREE.NormalBlending, transparent: true});
+		this._outerMesh.traverse(node =>
+		{
+			if (node instanceof THREE.Mesh)
+			{
+				node.material = outerMat;
+			}
+		});
+
 		this._iconMesh = options.iconMesh;
+
+		this._ring = options.ringScene.clone();
+		this._ring.scale.set(options.pathRadius, options.pathRadius, options.pathRadius);
+
+		const ringMat = new THREE.MeshBasicMaterial({color: new THREE.Color(0.1, 0.1, 0.4), side: THREE.DoubleSide, depthWrite: false});
+		this._ring.traverse(node =>
+		{
+			if (node instanceof THREE.Mesh)
+			{
+				node.material = ringMat;
+			}
+		});
 
 		this._particles = new Particles.ParticleSystem(options.particleOptions);
 		this._particles.rotateX(-Math.PI * 0.5);
 		this._anchor.RepositionCallback = this._particles.setPointSizeFromCanvasScaler.bind(this._particles);
 
+		this._pathAxis = options.pathAxis;
+		this._pathAngle = options.pathStartAngle;
+		this._pathSpeed = options.pathSpeed;
+		this._pathRadius = options.pathRadius;
+
 		const group = this._group = new THREE.Group();
 		this._group.scale.set(0, 0, 0);
+		this._group.position.set(options.pathRadius, 0, 0);
 
 		this._group.add(this._particles);
 		this._group.add(this._outerMesh);
-			this._outerMesh.add(this._innerMesh);
 			this._outerMesh.add(this._iconMesh);
 
+		this._anchor.add(this._ring);
 		this._anchor.add(this._group);
 
 		const titleGroup = this._titleGroup = new THREE.Group();
@@ -121,7 +157,7 @@ export class LandingScreenItem
 			{
 				scale: 
 				{
-					update: function(value: number) { group.scale.set(value, value, value); },
+					update: function(value: number) { group.scale.set(value * 2, value * 2, value * 2); },
 					undefinedGetter: function() { return group.scale.x; }
 				},
 				titleScale: 
@@ -154,6 +190,16 @@ export class LandingScreenItem
 	{
 		this._particles.update(dt);
 
+		this._pathAngle += dt * this._pathSpeed;
+		if (this._pathAngle >= Pi2)
+		{
+			this._pathAngle = this._pathAngle % Pi2;
+		}
+
+		const pos = new THREE.Vector3(this._pathRadius, 0, 0);
+		pos.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(this._pathAxis, this._pathAngle))
+		this._group.position.set(pos.x, pos.y, pos.z);
+
 		this._angle += dt * this._yScale;
 
 		if (this._angle >= Pi2)
@@ -165,7 +211,7 @@ export class LandingScreenItem
 
 		if (this._animator.getCurrentTracks() != this._animations.enter && this._animator.getCurrentTracks() != this._animations.exit)
 		{
-			this._group.position.set(0, Math.sin(this._angle) * this._y, 0);
+			// this._group.position.set(0, Math.sin(this._angle) * this._y, 0);
 		}
 
 		this._backingFrame.update(dt);
@@ -288,16 +334,17 @@ export class LandingScreen
 		// define particle options
 		const particleOptions: Particles.ParticleSystemOptions = 
 		{
+			useWorldPosition: true,
 			emission:
 			{
 				rate: 10,
-				shape: new Particles.ParticleSystemShapeRectangle(1.9, 0)
+				shape: new Particles.ParticleSystemShapeRectangle(1.5, 0)
 			},
 			particles:
 			{
 				lifetime: new Utils.Range(1, 2),
 				startSpeed: new Utils.Range(1.5, 2.5),
-				startSize: new Utils.Range(0.7),
+				startSize: new Utils.Range(0.2),
 				sizeAnim: new Animation.AnimationTyped<number>(
 					[
 						new Animation.KeyframeNumber(0, 1),
@@ -498,6 +545,9 @@ export class LandingScreen
 
 		const itemInc = 1 / (Navigation.NavApps.length + 1);
 		let xAnchor = itemInc;
+		let rad = 4;
+		let startAngle = 0;
+		const angleInc = Pi2 / (Navigation.NavApps.length);
 
 		// setup menu items
 		Navigation.NavApps.forEach(item =>
@@ -505,15 +555,21 @@ export class LandingScreen
 			this._items.push(new LandingScreenItem(context, 
 				{
 					title: item.title,
-					anchor: new Anchorable({refX: 0, refY: 0, anchorX: xAnchor, anchorY: 0.5}, null),
-					outerMesh: new THREE.Mesh(Constants.geometry.landingCubeFrame, Constants.materials.landingCubeFrame),
-					innerMesh: new THREE.Mesh(Constants.geometry.landingCubeInner, Constants.materials.landingCubeInner),
+					anchor: new Anchorable({refX: 0, refY: 0, anchorX: 0.5, anchorY: 0.5}, null),
+					outerMesh: <THREE.Mesh>context.meshManager.getLoadedMesh(Resources.unitSphereMesh, "UnitSphere"),
 					iconMesh: new THREE.Mesh(iconGeom, iconMaterial),
 					particleOptions: particleOptions,
+					ringScene: context.meshManager.getLoadedMesh(Resources.pathRingMesh),
+					pathAxis: new THREE.Vector3(0, 1, 0),
+					pathSpeed: new Utils.Range(0.05, 0.1).random(),
+					pathRadius: rad,
+					pathStartAngle: startAngle,
 					animations: this._animations
 				}
 			));
 
+			rad += 3;
+			startAngle += angleInc;
 			xAnchor += itemInc;
 		});
 	}

@@ -30,6 +30,16 @@ export const NavApps: NavData[] =
 		type: GeoGridScreen,
 		title: "Geo Prism Wallpaper",
 		path: "/#geogrid"
+	},
+	{
+		type: GeoGridScreen,
+		title: "Starazius",
+		path: "/#starazius"
+	},
+	{
+		type: GeoGridScreen,
+		title: "Travel Blog",
+		path: "/#travelblog"
 	}
 ];
 
