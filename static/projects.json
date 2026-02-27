@@ -4,6 +4,20 @@
 			"id": "starazius",
 			"title": "Starazius",
 			"subtitle": "Arcade style top-down shooter with roguelike elements",
+			"tags": [
+				{
+					"text": "Android",
+					"url": ""
+				},
+				{
+					"text": "iOS",
+					"url": ""
+		 		},
+				{
+					"text": "Steam",
+					"url": "https://store.steampowered.com/app/1157100/Starazius/"
+				}
+			],
 			"aspect": 1.5,
 			"previewImage": "/starazius_portfolio_preview.jpeg",
 			"previewVideo": "/starazius_portfolio_preview.mp4",
@@ -14,6 +28,16 @@
 			"id": "cf",
 			"title": "Prototype 'CF'",
 			"subtitle": "'Collect Frenzy' concept with single input mechanic, single screen arcade game",
+			"tags": [
+				{
+					"text": "Android",
+					"url": ""
+				},
+				{
+					"text": "Desktop",
+					"url": ""
+				}
+			],
 			"aspect": 0.8,
 			"previewImage": "/cf_portfolio_preview.jpeg",
 			"previewVideo": "/cf_portfolio_preview.mp4",
@@ -24,6 +48,16 @@
 			"id": "ps",
 			"title": "Prototype 'PS'",
 			"subtitle": "'Passive Shooter' concept with focus on patterns and execution skill",
+			"tags": [
+				{
+					"text": "Android",
+					"url": ""
+				},
+				{
+					"text": "Desktop",
+					"url": ""
+				}
+			],
 			"aspect": 0.8,
 			"previewImage": "/ps_portfolio_preview.jpeg",
 			"previewVideo": "/ps_portfolio_preview.mp4",
@@ -34,6 +68,12 @@
 			"id": "travel-blog",
 			"title": "Travel Blog",
 			"subtitle": "Exploration of a custom photo album-like design for travel blogging",
+			"tags": [
+				{
+					"text": "Website",
+					"url": "https://yotryu.github.io/travel-blog/"
+				}
+			],
 			"aspect": 1.5,
 			"previewImage": "/travelblog_portfolio_preview_1.jpeg",
 			"description": "A personal passion project to get more hands-on with modern web development.\nAfter an overseas trip with the family, I wanted a neat way to share memories. Having used other platforms in the past to do travel blogging with, I wanted to see if I could do something more unique, so used this as an opportunity to do just that.\nMade using Svelte kit, hosted on GitHub static sites."

@@ -2,7 +2,7 @@ import type { PageLoad } from './$types';
 import * as Types from '$lib/types';
 
 
-export const load: PageLoad = async ({ fetch }) => {
+export const load: PageLoad = async ({ fetch, params }) => {
 	// Fetch our post json
 	let path = `/projects.json`;
 	let rawJson = await fetch(path);
