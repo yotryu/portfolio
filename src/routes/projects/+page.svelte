@@ -1,10 +1,9 @@
 <script lang="ts">
-	import type { PageProps } from './$types';
 	import { resolve } from '$app/paths';
-	import { page } from '$app/state';
 	import Projectcard from '$lib/projectcard.svelte';
-    
-    const activeItem = page.url.searchParams.get("active");
+    import type { ProjectData } from '$lib/types';
+	import { FullProjectData } from '$lib/projectsData';
+    import { onMount } from 'svelte';
 
 	// state
 	let innerWidth = $state(0);
@@ -15,9 +14,14 @@
 	let projectItemClass = $derived(isPortrait ? "project-item-portrait" : "project-item");
 	let activeItemClass = $derived(isPortrait ? "active-item-portrait" : "active-item");
 
-	let { data }: PageProps = $props();
+	const data = FullProjectData;
 
-	let activeData = $derived(data.projects.find(i => i.id == activeItem));
+	let activeData: ProjectData | undefined = $state(undefined);
+	
+	onMount(() => {
+		const activeItem = new URLSearchParams(window.location.search).get("active") || "";
+		activeData = data.projects.find(i => i.id == activeItem);
+	});
 </script>
 
 <!-- Bind innerWidth and innerHeight so we can pick layout based on aspect ratio -->
@@ -28,7 +32,7 @@
 	<!-- Project navigation list -->
 	<div class={itemsContainerClass}>
 		{#each data.projects as project}
-			{@const greyClass = project.id != activeItem ? "greyscale" : ""}
+			{@const greyClass = !activeData || project.id != activeData.id ? "greyscale" : ""}
 			<div class={projectItemClass}>
 				<button class="item-button" onclick={() => window.location.assign(resolve(`/projects`) + `?active=${project.id}`)}>
 					<img class="background-fill {greyClass}" src={project.previewImage} alt=""/>

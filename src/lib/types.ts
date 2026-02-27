@@ -13,7 +13,7 @@ export interface ProjectData {
 	previewVideo?: string;
 	description: string;
 	descriptionParagraphs?: string[];
-	iconPath: string;
+	iconPath?: string;
 }
 
 export interface AllProjectData {
