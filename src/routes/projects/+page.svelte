@@ -77,7 +77,7 @@
 	.full {
 		position: absolute;
 		left: 0;
-		top: 0;
+		top: 4.5em;
 		right: 0;
 		bottom: 0;
 		padding: 0.5em;

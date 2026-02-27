@@ -19,7 +19,7 @@
 	const chunkData: ChunkData[] = [
 		{
 			linkId: "/",
-			header: "Jonathan Law",
+			header: "Jonathan Law's Portfolio",
 			iconPath: pfpImage
 		},
 		{
@@ -112,6 +112,21 @@
 		font-family: Fira-Regular;
 		src: url(/FiraSans-Regular.ttf);
 	}
+
+	.top-nav {
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		margin: 0.5em;
+		padding: 0.5em 1em;
+		border-radius: 12px;
+		background-color: #000A;
+		color: azure;
+		font-family: "Fira-Regular";
+		display: flex;
+		vertical-align: middle;
+	}
 	
 	.outer-container {
 		display: grid;
@@ -136,7 +151,7 @@
 
 	.circle-pfp {
 		border-radius: 50%;
-		max-width: 5em;
+		max-width: 3em;
 	}
 
 	.chunk-list {
@@ -145,7 +160,7 @@
 	}
 
 	.title {
-		margin-top: 0.3em;
+		margin: auto 1em;
 	}
 
 	.chunk-button, .no-button {
