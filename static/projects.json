@@ -1,0 +1,41 @@
+{
+	"projects": [
+		{
+			"id": "starazius",
+			"title": "Starazius",
+			"subtitle": "Arcade style top-down shooter with roguelike elements",
+			"aspect": 1.5,
+			"previewVideo": "/starazius_portfolio_preview.mp4",
+			"previewVideo_live": "https://drive.google.com/uc?export=download&id=1eVS7sJZ8wqit7lZxj7V05UHf_fAOz9Gi&authuser=0",
+			"description": "My first solo developer effort.\nInspired by Star Fox, Galaga (Legions), Downwell, and bullet-hells.\nThe game combines elements from these inspirations for a score and achievement focussed experience.\nThe ambitious timeframe (~8 months) means it has quite a few rough edges, but I'm proud of it all the same.\nMade in Unity with Blender, Pixelmator Pro, and FL Studio."
+		},
+		{
+			"id": "cf",
+			"title": "Prototype 'CF'",
+			"subtitle": "'Collect Frenzy' concept with single input mechanic, single screen arcade game",
+			"aspect": 0.8,
+			"previewVideo": "/cf_portfolio_preview.mp4",
+			"previewVideo_live": "https://drive.google.com/uc?export=download&id=1eVS7sJZ8wqit7lZxj7V05UHf_fAOz9Gi&authuser=0",
+			"description": "After Starazius, I wanted to try a simple abstract idea polished early to see how that might work.\nThere is only one input mechanic - move around the circle. The rest of the game involves collecting bits for points and to progress, and avoiding obstacles. Challenge phases were added to support awarding gems, which upon collecting all rewarded a jackpot inspired by pinball.\nThe controls never felt right, so I shelved the project to reuse some visual ideas later.\nMade in Unity with Blender, Pixelmator Pro, and FL Studio."
+		},
+		{
+			"id": "ps",
+			"title": "Prototype 'PS'",
+			"subtitle": "'Passive Shooter' concept with focus on patterns and execution skill",
+			"aspect": 0.8,
+			"previewVideo": "/ps_portfolio_preview.mp4",
+			"previewVideo_live": "https://drive.google.com/uc?export=download&id=1eVS7sJZ8wqit7lZxj7V05UHf_fAOz9Gi&authuser=0",
+			"description": "With 'CF' shelved, I wanted to apply some of the visual design ideas in a more traditional input experience.\nAgain the approach was to quickly 'polish' a core experience to see how it would feel.\nThe game involves collecting / bumping into things of the same colour, and avoiding the opposite colour. Fill the gauge and you enter 'attack' mode where enemies fire bullets which when collected, shoot back at them.\nThere is a miniboss / challenge system, as well as run upgrades and bosses with more traditional bullet-hell type patterns.\nThis prototype felt much more fun and is one I would like to continue.\nMade in Unity with Blender, Pixelmator Pro, and FL Studio."
+		},
+		{
+			"id": "travel-blog",
+			"title": "Travel Blog",
+			"subtitle": "Exploration of a custom photo album-like design for travel blogging",
+			"aspect": 1.5,
+			"previewImages": [
+				"/travelblog_portfolio_preview_1.jpeg"
+			],
+			"description": "A personal passion project to get more hands-on with modern web development.\nAfter an overseas trip with the family, I wanted a neat way to share memories. Having used other platforms in the past to do travel blogging with, I wanted to see if I could do something more unique, so used this as an opportunity to do just that.\nMade using Svelte kit, hosted on GitHub static sites."
+		}
+	]
+}
