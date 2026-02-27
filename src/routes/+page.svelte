@@ -1,5 +1,6 @@
 <script lang="ts">
 	import pfpImage from '$lib/assets/headshot.jpg';
+	import { resolve } from '$app/paths';
 
 	// state
 	let innerWidth = $state(0);
@@ -8,6 +9,7 @@
 	let chunkClass = $derived(isPortrait ? "chunk-portrait" : "chunk");
 
 	interface ChunkData {
+		linkId?: string;
 		header: string;
 		text?: string;
 		textList?: string[] | string[][];
@@ -16,14 +18,17 @@
 
 	const chunkData: ChunkData[] = [
 		{
+			linkId: "/",
 			header: "Jonathan Law",
 			iconPath: pfpImage
 		},
 		{
+			linkId: "/projects",
 			header: "Projects",
-			text: "Primarily focussed on video games, I've worked on AAA console and PC titles, mobile free-to-play, and small team / individual indie titles over the years."
+			text: "Primarily focused on video games, I've worked on AAA console and PC titles, mobile free-to-play, and small team / individual indie titles over the years."
 		},
 		{
+			linkId: "/experience",
 			header: "Experience",
 			text: "Over 12 years experience as a software programmer in the games industry, with supporting roles in production and team leadership at different times."
 		},
@@ -62,32 +67,37 @@
 
 <div class="outer-container">
 {#each chunkData as chunk}
+	{@const buttonClass = chunk.linkId ? "chunk-button" : "no-button"}
 	<div class={chunkClass}>
-		{#if chunk.iconPath}
-			<img class="circle-pfp" src={chunk.iconPath} alt="">
-		{/if}
+		<button class={buttonClass} onclick={() => chunk.linkId ? window.location.assign(resolve(`${chunk.linkId}`)) : {}}>
+			<div>
+				{#if chunk.iconPath}
+					<img class="circle-pfp" src={chunk.iconPath} alt="">
+				{/if}
 
-		<h2>{chunk.header}</h2>
+				<h2 class="title">{chunk.header}</h2>
 
-		{#if chunk.text}
-			<p>{chunk.text}</p>
-		{/if}
+				{#if chunk.text}
+					<p>{chunk.text}</p>
+				{/if}
 
-		{#if chunk.textList}
-			<div class="chunk-list">
-				{#each chunk.textList as listItem}
-					{#if Array.isArray(listItem) && listItem.length > 1}
-						<ul>
-						{#each listItem as subItem}
-							<li>{subItem}</li>
+				{#if chunk.textList}
+					<div class="chunk-list">
+						{#each chunk.textList as listItem}
+							{#if Array.isArray(listItem) && listItem.length > 1}
+								<ul>
+								{#each listItem as subItem}
+									<li>{subItem}</li>
+								{/each}
+								</ul>
+							{:else}
+								<li>{listItem}</li>
+							{/if}
 						{/each}
-						</ul>
-					{:else}
-						<li>{listItem}</li>
-					{/if}
-				{/each}
+					</div>
+				{/if}
 			</div>
-		{/if}
+		</button>
 	</div>
 {/each}
 </div>
@@ -111,7 +121,7 @@
 	.chunk, .chunk-portrait {
 		font-family: "Fira-Regular";
 		color: azure;
-		border-radius: 8px;
+		border-radius: 12px;
 		/* border: 1px solid #2C7; */
 		padding: 0.5em 1em;
 		margin-bottom: 1em;
@@ -132,6 +142,21 @@
 	.chunk-list {
 		padding: 0 0 1em 1em;
 		font-family: "Fira-ExtraLight";
+	}
+
+	.title {
+		margin-top: 0.3em;
+	}
+
+	.chunk-button, .no-button {
+		border: none;
+		background-color: transparent;
+		text-align: unset;
+		color: unset;
+	}
+
+	.chunk-button:hover {
+		cursor: pointer;
 	}
 
 	p {

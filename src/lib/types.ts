@@ -3,7 +3,7 @@ export interface ProjectData {
 	title: string;
 	subtitle: string;
 	aspect: number;
-	previewImages?: string[];
+	previewImage: string;
 	previewVideo?: string;
 	description: string;
 	descriptionParagraphs?: string[];

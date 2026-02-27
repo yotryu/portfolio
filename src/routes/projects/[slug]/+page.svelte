@@ -25,10 +25,8 @@
 				<source src={data.previewVideo} type="video/mp4">
 				Your browser does not support the video tag.
 			</video>
-		{/if}
-
-		{#if data.previewImages && data.previewImages.length > 0}
-			<img class="background-fill" src={data.previewImages[0]} alt=""/>
+		{:else if data.previewImage}
+			<img class="background-fill" src={data.previewImage} alt=""/>
 		{/if}
 		<div class="content">
 			<div class="top">
@@ -68,6 +66,7 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
+		z-index: 10;
 	}
 
 	.chunk, .chunk-portrait {
