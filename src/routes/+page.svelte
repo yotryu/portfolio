@@ -18,11 +18,6 @@
 
 	const chunkData: ChunkData[] = [
 		{
-			linkId: "/",
-			header: "Jonathan Law's Portfolio",
-			iconPath: pfpImage
-		},
-		{
 			linkId: "/projects",
 			header: "Projects",
 			text: "Primarily focused on video games, I've worked on AAA console and PC titles, mobile free-to-play, and small team / individual indie titles over the years."
@@ -131,6 +126,7 @@
 	.outer-container {
 		display: grid;
 		place-items: center;
+		margin-top: 5em;
 	}
 
 	.chunk, .chunk-portrait {
