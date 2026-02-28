@@ -3,6 +3,36 @@ import type { AllProjectData } from "./types";
 export const FullProjectData: AllProjectData = {
 	projects: [
 		{
+			id: "lightning-wallpaper",
+			title: "Lightning Wallpaper",
+			subtitle: "Dynamic lightning live wallpaper for Android",
+			tags: [
+				{
+					"text": "Android",
+					"url": ""
+				}
+			],
+			aspect: 0.8,
+			previewImage: "https://lh3.googleusercontent.com/d/1kE-W1FLbINb2of5cYfKugsfM8-Quik2d?authuser=0",
+			previewVideo: "https://www.dropbox.com/scl/fi/s7cxsatjxm4ci0k7na5he/lightning-wallpaper-demo.mp4?rlkey=jsxyg3hli1ohzp6jzu09ztbgg&st=8g42o5ar&raw=1",
+			description: "A personal project created after figuring a novel way to create dynamic lightning effects while working on Fruit Ninja.\nI thought the idea of having a unique lightning-type wallpaper which animates and shows something different all the time would be cool.\nMade with Android Studio (Java + OpenGL) and Pixelmator Pro."
+		},
+		{
+			id: "geogrid-wallpaper",
+			title: "Geo Grid Wallpaper",
+			subtitle: "Abstract geometric art-inspired live wallpaper for Android",
+			tags: [
+				{
+					"text": "Android",
+					"url": ""
+				}
+			],
+			aspect: 0.8,
+			previewImage: "https://lh3.googleusercontent.com/d/16L12-25fGPiitDXFVzRC4g3M_PE8v57Y?authuser=0",
+			previewVideo: "https://www.dropbox.com/scl/fi/jdn1qesf1jt4r6cje6r3e/Geo-Prism-Live-Wallpaper-demo.mp4?rlkey=937vp272svrh8kggtlftitw6g&st=eunhr39u&raw=1",
+			description: "Another personal project, this time created after exploring background designs for 'CF'.\nWhile that prototype game was shelved, the background design was something I really liked and thought would work well as a live wallpaper.\nMany options and shapes turned it into an app which I have used as my wallpaper for years now.\nMade with Android Studio (Java + OpenGL) and Blender."
+		},
+		{
 			id: "starazius",
 			title: "Starazius",
 			subtitle: "Arcade style top-down shooter with roguelike elements",

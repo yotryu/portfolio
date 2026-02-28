@@ -112,7 +112,7 @@
 		/* text-align: center; */
 		margin: 0.5em;
 		/* width: 40em; */
-		height: 10em;
+		height: 12em;
 		overflow: hidden;
 		position: relative;
 	}
