@@ -21,7 +21,7 @@
 <!-- Bind innerWidth and innerHeight so we can pick layout based on aspect ratio -->
 <svelte:window bind:innerWidth bind:innerHeight />
 
-<div class="outer-container {expandBottom ? "" : "blur-backdrop"}">
+<div class="outer-container">
 	<div class={chunkClass}>
 		{#if data.previewVideo}
 			<video class="background-fill {expandBottom ? "low-brightness" : ""}" autoplay muted loop>

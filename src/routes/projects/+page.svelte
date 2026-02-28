@@ -49,18 +49,18 @@
 			</div>
 		{/each}
 	</div>
-
-	<!-- Active project display -->
-	 {#if activeData}
-		<div class={activeItemClass}>
-			<Projectcard data={activeData}/>
-		</div>
-		
-		{#if isNarrow}
-			<button class="close-button right" onclick={() => window.location.assign(resolve('/projects'))}>X</button>
-		{/if}
-	{/if}
 </div>
+
+<!-- Active project display -->
+{#if activeData}
+<div class="full blur-backdrop">
+	<div class={activeItemClass}>
+		<Projectcard data={activeData}/>
+		<button class="close-button right" onclick={() => window.location.assign(resolve('/projects'))}>X</button>
+	</div>
+	
+</div>
+{/if}
 
 
 <style>
@@ -84,15 +84,22 @@
 		top: 3.5em;
 		right: 0;
 		bottom: 0;
-		padding: 0.5em;
+		/* padding: 0.5em; */
+	}
+
+	.blur-backdrop {
+		backdrop-filter: blur(5px);
 	}
 
 	.items-container, .items-container-portrait {
-		width: 30%;
+		display: grid;
+		grid-template-columns: auto auto auto;
+		/* width: 30%; */
 	}
 
 	.items-container-portrait {
-		width: 100%;
+		grid-template-columns: calc(100% - 1em);
+		/* width: 100%; */
 	}
 
 	.project-item, .project-item-portrait {
@@ -103,7 +110,7 @@
 		/* padding: 0.5em 1em 1em 1em; */
 		background-color: #0008;
 		/* text-align: center; */
-		margin-bottom: 0.5em;
+		margin: 0.5em;
 		/* width: 40em; */
 		height: 10em;
 		overflow: hidden;
@@ -115,29 +122,35 @@
 	}
 
 	.active-item, .active-item-portrait {
-		position: absolute;
-		left: calc(30% + 1em);
-		top: 0.5em;
-		right: 0.5em;
-		bottom: 0.5em;
+		position: relative;
+		/* text-align: center; */
+		margin: 0.5em auto;
+		max-width: 60em;
+		height: calc(100% - 1em);
+		z-index: 2;
 	}
 
 	.active-item-portrait {
+		position: absolute;
 		left: 0.5em;
-		z-index: 2;
+		right: 0.5em;
+		top: 0em;
+		bottom: 0em;
+		max-width: unset;
+		height: unset;
 	}
 
 	.content {
 		height: 100%;
 		position: relative;
 		margin: 0.5em;
-		z-index: 1;
+		/* z-index: 1; */
 	}
 
 	.right {
 		position: absolute;
-		right: 1em;
-		top: 1em;
+		right: 0.5em;
+		top: 0.5em;
 	}
 
 	.small-button {
@@ -224,11 +237,11 @@
 	}
 
 	.greyscale {
-		filter: brightness(50%) grayscale(100%);
+		filter: brightness(40%);
 	}
 
 	.greyscale:hover {
-		filter: brightness(50%);
+		filter: brightness(100%);
 	}
 
 	.body-text {
