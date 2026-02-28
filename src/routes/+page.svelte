@@ -7,6 +7,12 @@
 	let innerHeight = $state(0);
 	let isPortrait = $derived(innerWidth <= innerHeight);
 	let chunkClass = $derived(isPortrait ? "chunk-portrait" : "chunk");
+	let rowClass = $derived(isPortrait ? "row-portrait" : "row");
+	let profileClass = $derived(isPortrait ? "profile-portrait" : "profile");
+	let projectsClass = $derived(isPortrait ? "projects-portrait" : "projects");
+	let experienceClass = $derived(isPortrait ? "experience-portrait" : "experience");
+	let skillsClass = $derived(isPortrait ? "skills-portrait" : "skills");
+	let hobbiesClass = $derived(isPortrait ? "hobbies-portrait" : "hobbies");
 
 	interface ChunkData {
 		linkId?: string;
@@ -61,6 +67,43 @@
 
 
 <div class="outer-container">
+	<!-- Profile -->
+	<div class={rowClass}>
+		<div class={profileClass}>
+			<img class="circle-pfp" src={pfpImage} alt="">
+			<h2 class="title">Jonathan Law</h2>
+			<p>Hi, I'm Jonathan, a software developer with a huge passion for video games who loves to make things with other passionate and awesome people!</p>
+		</div>
+	</div>
+
+	<!-- Projects and Experience -->
+	<div class={rowClass}>
+		<button class={projectsClass} onclick={() => window.location.assign(resolve("/projects"))}>
+			<h2 class="title top">Projects</h2>
+			<p class="bottom">Primarily focused on video games, I've worked on AAA console and PC titles, mobile free-to-play, and small team / individual indie titles over the years.</p>
+		</button>
+	</div>
+
+	<div class={rowClass}>
+		<button class={experienceClass} onclick={() => window.location.assign(resolve("/experience"))}>
+			<h2 class="title top">Experience</h2>
+			<p class="bottom">Over 12 years experience as a software programmer in the games industry, with supporting roles in production and team leadership occasionally.</p>
+		</button>
+	</div>
+
+	<!-- Skills and Hobbies -->
+	<div class="{rowClass} flex">
+		<button class={skillsClass}>
+			<h3 class="title">Skills</h3>
+		</button>
+
+		<button class={hobbiesClass}>
+			<h3 class="title">Hobbies</h3>
+		</button>
+	</div>
+</div>
+
+<!-- <div class="outer-container">
 {#each chunkData as chunk}
 	{@const buttonClass = chunk.linkId ? "chunk-button" : "no-button"}
 	<div class={chunkClass}>
@@ -95,7 +138,7 @@
 		</button>
 	</div>
 {/each}
-</div>
+</div> -->
 
 
 <style>
@@ -126,28 +169,83 @@
 	.outer-container {
 		display: grid;
 		place-items: center;
-		margin-top: 5em;
 	}
 
-	.chunk, .chunk-portrait {
+	.profile, .profile-portrait {
 		font-family: "Fira-Regular";
 		color: azure;
 		border-radius: 12px;
 		/* border: 1px solid #2C7; */
 		padding: 0.5em 1em;
-		margin-bottom: 1em;
 		background-color: #000A;
-		/* text-align: center; */
-		width: 40em;
+		text-align: center;
 	}
 
-	.chunk-portrait {
-		width: 90%
+	.profile-portrait {
+		/* width: calc(100%); */
+	}
+
+	.row, .row-portrait {
+		width: 40em;
+		position: relative;
+		margin-bottom: 1em;
+		display: flex;
+	}
+
+	.row-portrait {
+		width: 100%;
+		display: block;
+		/* display: flex; */
+	}
+
+	.flex {
+		display: flex;
+	}
+
+	.projects, .projects-portrait, .experience, .experience-portrait, .skills, .skills-portrait, .hobbies, .hobbies-portrait {
+		font-family: "Fira-Regular";
+		color: azure;
+		border-radius: 12px;
+		border: none;
+		padding: 0.5em 1em;
+		/* margin-bottom: 1em; */
+		/* margin-right: 1em; */
+		background-color: #000A;
+		text-align: center;
+		/* width: calc(50% - 2em); */
+		width: 100%;
+		height: 10em;
+		/* position: relative; */
+		cursor: pointer;
+	}
+
+	.projects-portrait {
+		/* width: 100%; */
+		margin-right: unset;
+		/* margin-bottom: 1em; */
+	}
+
+	.experience, .experience-portrait {
+		margin-right: unset;
+	}
+
+	.experience-portrait {
+		/* width: unset; */
+	}
+
+	.skills, .skills-portrait, .hobbies, .hobbies-portrait {
+		width: 50%;
+		height: unset;
+	}
+
+	.skills, .skills-portrait {
+		margin-right: 1em;
 	}
 
 	.circle-pfp {
 		border-radius: 50%;
-		max-width: 3em;
+		margin-top: 1em;
+		width: 6em;
 	}
 
 	.chunk-list {
@@ -156,7 +254,24 @@
 	}
 
 	.title {
-		margin: auto 1em;
+		margin: 0;
+		padding: 0;
+	}
+
+	.top {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		padding: 1em;
+	}
+
+	.bottom {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		padding: 1em 1em 0.5em 1em;
 	}
 
 	.chunk-button, .no-button {

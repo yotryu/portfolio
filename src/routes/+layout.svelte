@@ -2,6 +2,7 @@
     import { resolve } from '$app/paths';
 	import favicon from '$lib/assets/favicon.svg';
 	import headshot from '$lib/assets/headshot.jpg';
+	import house from '$lib/assets/house.svg';
     import { onMount } from 'svelte';
 
 	const routeNameMap = [
@@ -29,16 +30,15 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
+{#if routeMapping}
 <div class="top-nav">
 	<button class="nav-button" onclick={() => window.location.assign(resolve('/'))}>
-		<img class="circle-pfp" src={headshot} alt="">
-		<h2 class="title">Jonathan Law's Portfolio</h2>
+		<img class="circle-pfp" src={house} alt="">
 	</button>
 
-	{#if routeMapping}
-		<h3 class="page-title">{routeMapping}</h3>
-	{/if}
+	<h3 class="page-title">{routeMapping}</h3>
 </div>
+{/if}
 
 {@render children()}
 
@@ -82,17 +82,17 @@
 	}
 
 	.circle-pfp {
-		border-radius: 50%;
-		width: 3em;
+		/* border-radius: 50%; */
+		width: 2em;
 	}
 
 	.title {
-		margin: auto auto auto 1em;
+		margin: auto auto auto 0;
 		font-family: "Fira-Regular";
 	}
 
 	.page-title {
-		margin: auto 2em;
+		margin: auto 1em;
 		font-family: "Fira-Regular";
 		/* font-size: medium; */
 		color: #CCC;
