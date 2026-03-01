@@ -67,32 +67,33 @@
 
 
 <div class="outer-container">
+	<div class="bg-container">
+		<video class="bg-video" autoplay muted loop>
+			<source src="https://www.dropbox.com/scl/fi/czrdhlm4o01rx86kf41l6/portfolio_collage_loop.mp4?rlkey=t6am0iz6g1oa9zyjz7mcypbip&st=u9qzl719&raw=1" type="video/mp4">
+			Your browser does not support the video tag.
+		</video>
+	</div>
 	<!-- Profile -->
 	<div class={rowClass}>
 		<div class={profileClass}>
 			<img class="circle-pfp" src={pfpImage} alt="">
-			<h2 class="title">Jonathan Law</h2>
+			<!-- <h2 class="title">Jonathan Law</h2> -->
 			<p>Hi, I'm Jonathan, a software developer with a huge passion for video games who loves to make things with other passionate and awesome people!</p>
 		</div>
 	</div>
 
 	<!-- Projects and Experience -->
-	<div class={rowClass}>
-		<button class={projectsClass} onclick={() => window.location.assign(resolve("/projects"))}>
-			<h2 class="title top">Projects</h2>
-			<p class="bottom">Primarily focused on video games, I've worked on AAA console and PC titles, mobile free-to-play, and small team / individual indie titles over the years.</p>
-		</button>
-	</div>
-
-	<div class={rowClass}>
-		<button class={experienceClass} onclick={() => window.location.assign(resolve("/experience"))}>
-			<h2 class="title top">Experience</h2>
-			<p class="bottom">Over 12 years experience as a software programmer in the games industry, with supporting roles in production and team leadership occasionally.</p>
-		</button>
-	</div>
-
-	<!-- Skills and Hobbies -->
 	<div class="{rowClass} flex">
+		<button class={projectsClass} onclick={() => window.location.assign(resolve("/projects"))}>
+			<h3 class="title">Projects</h3>
+		</button>
+	</div>
+
+	<div class="{rowClass} flex">
+		<button class={skillsClass} onclick={() => window.location.assign(resolve("/experience"))}>
+			<h3 class="title">Experience</h3>
+		</button>
+
 		<button class={skillsClass}>
 			<h3 class="title">Skills</h3>
 		</button>
@@ -159,7 +160,7 @@
 		margin: 0.5em;
 		padding: 0.5em 1em;
 		border-radius: 12px;
-		background-color: #000A;
+		background-color: #000D;
 		color: azure;
 		font-family: "Fira-Regular";
 		display: flex;
@@ -169,6 +170,25 @@
 	.outer-container {
 		display: grid;
 		place-items: center;
+		overflow: hidden;
+		margin-top: 3.5em;
+	}
+
+	.bg-container {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		overflow: hidden;
+		z-index: -1;
+	}
+
+	.bg-video {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+		filter: brightness(70%);
 	}
 
 	.profile, .profile-portrait {
@@ -177,7 +197,7 @@
 		border-radius: 12px;
 		/* border: 1px solid #2C7; */
 		padding: 0.5em 1em;
-		background-color: #000A;
+		background-color: #000D;
 		text-align: center;
 	}
 
@@ -210,11 +230,11 @@
 		padding: 0.5em 1em;
 		/* margin-bottom: 1em; */
 		/* margin-right: 1em; */
-		background-color: #000A;
+		background-color: #000D;
 		text-align: center;
 		/* width: calc(50% - 2em); */
 		width: 100%;
-		height: 10em;
+		height: 3em;
 		/* position: relative; */
 		cursor: pointer;
 	}

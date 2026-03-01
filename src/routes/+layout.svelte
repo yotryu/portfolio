@@ -13,6 +13,10 @@
 		{
 			path: "experience",
 			name: "Experience"
+		},
+		{
+			path: "bg-gen",
+			name: "bg-gen"
 		}
 	];
 
@@ -30,13 +34,17 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-{#if routeMapping}
+{#if routeMapping != "bg-gen"}
 <div class="top-nav">
+	{#if routeMapping}
 	<button class="nav-button" onclick={() => window.location.assign(resolve('/'))}>
 		<img class="circle-pfp" src={house} alt="">
 	</button>
 
 	<h3 class="page-title">{routeMapping}</h3>
+	{:else}
+	<h3 class="page-title center">Jonathan Law</h3>
+	{/if}
 </div>
 {/if}
 
@@ -64,7 +72,7 @@
 		margin: 0.5em;
 		padding: 0.5em 1em;
 		border-radius: 12px;
-		background-color: #000A;
+		background-color: #000D;
 		color: azure;
 		font-family: "Fira-Regular";
 		display: flex;
@@ -96,5 +104,10 @@
 		font-family: "Fira-Regular";
 		/* font-size: medium; */
 		color: #CCC;
+	}
+
+	.center {
+		text-align: center;
+		margin: auto;
 	}
 </style>
