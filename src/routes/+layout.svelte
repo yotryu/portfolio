@@ -15,6 +15,14 @@
 			name: "Experience"
 		},
 		{
+			path: "skills",
+			name: "Skills"
+		},
+		{
+			path: "interests",
+			name: "Interests"
+		},
+		{
 			path: "bg-gen",
 			name: "bg-gen"
 		}

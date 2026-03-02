@@ -94,12 +94,12 @@
 			<h3 class="title">Experience</h3>
 		</button>
 
-		<button class={skillsClass}>
+		<button class={skillsClass} onclick={() => window.location.assign(resolve("/skills"))}>
 			<h3 class="title">Skills</h3>
 		</button>
 
-		<button class={hobbiesClass}>
-			<h3 class="title">Hobbies</h3>
+		<button class={hobbiesClass} onclick={() => window.location.assign(resolve("/interests"))}>
+			<h3 class="title">Interests</h3>
 		</button>
 	</div>
 </div>
