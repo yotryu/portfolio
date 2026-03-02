@@ -68,7 +68,7 @@
 
 <div class="outer-container">
 	<div class="bg-container">
-		<video class="bg-video" autoplay muted loop>
+		<video class="bg-video" autoplay muted loop onloadeddata={(evt) => (<HTMLElement>(evt.target)).style.opacity = "1"}>
 			<source src="https://www.dropbox.com/scl/fi/czrdhlm4o01rx86kf41l6/portfolio_collage_loop.mp4?rlkey=t6am0iz6g1oa9zyjz7mcypbip&st=u9qzl719&raw=1" type="video/mp4">
 			Your browser does not support the video tag.
 		</video>
@@ -185,10 +185,12 @@
 	}
 
 	.bg-video {
+		opacity: 0;
 		object-fit: cover;
 		width: 100%;
 		height: 100%;
 		filter: brightness(70%);
+		transition: all 1s ease;
 	}
 
 	.profile, .profile-portrait {

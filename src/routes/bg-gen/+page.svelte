@@ -18,7 +18,12 @@
 	// import ps_bg_2 from '$lib/assets/ps_bg_2.png';
 	// import ps_bg_3 from '$lib/assets/ps_bg_3.png';
 	// import ps_bg_4 from '$lib/assets/ps_bg_4.png';
-	// import ps_bg_5 from '$lib/assets/ps_bg_5.png';
+	// import fruit_ninja from '$lib/assets/fruit_ninja.jpeg';
+	// import fruit_ninja_2 from '$lib/assets/fruit_ninja_2.jpeg';
+	// import mowing from '$lib/assets/mowing.jpeg';
+	// import sackboy from '$lib/assets/sackboy.jpg';
+	// import starfish from '$lib/assets/super_starfish.jpeg';
+	// import vanguard from '$lib/assets/vanguard_exiles.jpg';
 
 	function getShuffledArray(arr: any[])
 	{
@@ -35,17 +40,47 @@
 	}
 
 	const rows: string[][] = [];
-	// const baseImages = [ggw_1, ggw_2, ggw_3, lw_1, lw_2, lw_3, rls_1, rls_2, rls_3, rls_4, rls_5, cf_bg_1, cf_bg_2, cf_bg_3, cf_bg_4, ps_bg_1, ps_bg_2, ps_bg_3, ps_bg_4];
+	// const baseImages = [
+	// 	ggw_1,
+	// 	lw_1,
+	// 	ggw_2,
+	// 	rls_2,
+	// 	ggw_3,
+
+	// 	rls_1,
+	// 	starfish,
+	// 	cf_bg_3,
+	// 	fruit_ninja,
+	// 	ps_bg_1,
+		
+	// 	lw_3,
+	// 	cf_bg_2,
+	// 	vanguard,
+	// 	ps_bg_2,
+	// 	rls_3,
+		
+	// 	cf_bg_4,
+	// 	lw_2,
+	// 	ps_bg_3,
+	// 	fruit_ninja_2,
+	// 	rls_5,
+		
+	// 	rls_4,
+	// 	mowing,
+	// 	ps_bg_4,
+	// 	cf_bg_1,
+	// 	sackboy,
+	// ];
 	// const rows: string[][] = [];
-	// let availableImages = getShuffledArray(baseImages);
+	//let availableImages = [...baseImages];//getShuffledArray(baseImages);
 	// let lastShuffle = [...availableImages];
 
 	// for (let i = 0; i < 6; ++i)
 	// {
 	// 	if (availableImages.length < 5)
 	// 	{
-	// 		availableImages = getShuffledArray(lastShuffle);
-	// 		lastShuffle = [...availableImages];
+	// 		availableImages = [...baseImages];//getShuffledArray(lastShuffle);
+	// 		// lastShuffle = [...availableImages];
 	// 	}
 
 	// 	rows.push(availableImages.splice(0, 5));

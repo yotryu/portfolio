@@ -42,7 +42,7 @@
 			{@const greyClass = !activeData || project.id != activeData.id ? "greyscale" : ""}
 			<div class={projectItemClass}>
 				<button class="item-button" onclick={() => window.location.assign(resolve(`/projects`) + `?active=${project.id}`)}>
-					<img class="background-fill fade-in {greyClass}" data-src={project.previewImage} alt="" onload={(evt) => (<HTMLElement>(evt.target)).style.opacity = "1"}/>
+					<img class="background-fill fade-in {greyClass}" loading="lazy" data-src={project.previewImage} alt="" onload={(evt) => (<HTMLElement>(evt.target)).style.opacity = "1"}/>
 				</button>
 
 				<div class="content" inert>
