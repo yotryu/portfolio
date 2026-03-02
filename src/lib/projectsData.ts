@@ -2,21 +2,21 @@ import type { AllProjectData } from "./types";
 
 export const FullProjectData: AllProjectData = {
 	projects: [
-		{
-			id: "portfolio-site",
-			title: "Portfolio Site",
-			subtitle: "Showcasing the projects I've worked on, and work history - this site!",
-			categories: ["Web", "Indie"],
-			tags: [
-				{
-					"text": "Website",
-					"url": "https://yotryu.github.io/portfolio/"
-				}
-			],
-			aspect: 1.5,
-			previewImage: "https://lh3.googleusercontent.com/d/1BlTnRaol04eIvpCQGlE2oMdl99DSwxfC?authuser=0",
-			description: "Something I've not had before this point, but with my recent foray into Github static pages and Svelte, I thought it time to set something up.\nMade using Svelte kit (Typescript), hosted on GitHub static sites."
-		},
+		// {
+		// 	id: "portfolio-site",
+		// 	title: "Portfolio Site",
+		// 	subtitle: "Showcasing the projects I've worked on, and work history - this site!",
+		// 	categories: ["Web", "Indie"],
+		// 	tags: [
+		// 		{
+		// 			"text": "Website",
+		// 			"url": "https://yotryu.github.io/portfolio/"
+		// 		}
+		// 	],
+		// 	aspect: 1.5,
+		// 	previewImage: "https://lh3.googleusercontent.com/d/1BlTnRaol04eIvpCQGlE2oMdl99DSwxfC?authuser=0",
+		// 	description: "Something I've not had before this point, but with my recent foray into Github static pages and Svelte, I thought it time to set something up.\nMade using Svelte kit (Typescript), hosted on GitHub static sites."
+		// },
 		{
 			id: "travel-blog",
 			title: "Travel Blog",
@@ -241,7 +241,7 @@ export const FullProjectData: AllProjectData = {
 			aspect: 1.5,
 			previewImage: "https://lh3.googleusercontent.com/d/1Y1-zrps0K0coa9olor6HWekmxkN_yPN7?authuser=0",
 			// previewVideo: "https://www.dropbox.com/scl/fi/s7cxsatjxm4ci0k7na5he/lightning-wallpaper-demo.mp4?rlkey=jsxyg3hli1ohzp6jzu09ztbgg&st=8g42o5ar&raw=1",
-			description: "The original fruit slicing touchscreen game.\nI implemented many of the blade and dojo abilities which came a while after the game was originally released, as well as new and seasonal content.\nWhile the foundations were largely there and left untouched, the team I worked with contributed many new ideas to the experience.\nMade with in-house engine and tools.\nⓒ Halfbrick Studios"
+			description: "The original fruit slicing touchscreen game.\nI implemented many of the blade and dojo abilities which came a while after the game was originally released, as well as new and seasonal content.\nWhile the foundations were largely there and left untouched, the team I worked with contributed many new ideas to the experience.\nMade with in-house engine and tools.\nGame ⓒ Halfbrick Studios"
 		},
 	]
 };
