@@ -262,6 +262,10 @@
 		margin-right: 1em;
 	}
 
+	.projects:hover, .profile-portrait:hover, .experience:hover, .experience-portrait:hover, .skills:hover, .skills-portrait:hover, .hobbies:hover, .hobbies-portrait:hover {
+		background-color: #444D;
+	}
+
 	.circle-pfp {
 		border-radius: 50%;
 		margin-top: 1em;
