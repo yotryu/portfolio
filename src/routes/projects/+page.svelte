@@ -1,4 +1,6 @@
 <script lang="ts">
+	import circleX from '$lib/assets/circle-x.svg';
+	import xIcon from '$lib/assets/x.svg';
 	import { resolve } from '$app/paths';
 	import Projectcard from '$lib/projectcard.svelte';
     import type { ProjectData } from '$lib/types';
@@ -44,6 +46,14 @@
 				</button>
 
 				<div class="content" inert>
+					{#if project.categories && project.categories.length > 0}
+						<div class="tag-container">
+							{#each project.categories as cat, index}
+								<span class="{index == project.categories.length - 1 ? "tag-last" : "tag"}">{cat}</span>
+							{/each}
+						</div>
+					{/if}
+					
 					<div class="bottom">
 						<div class="bottom-content">
 							<h3 class="title">{project.title}</h3>
@@ -58,12 +68,15 @@
 
 <!-- Active project display -->
 {#if activeData}
-<div class="full blur-backdrop">
-	<div class={activeItemClass}>
-		<Projectcard data={activeData}/>
-		<button class="close-button right" onclick={() => window.location.assign(resolve('/projects'))}>X</button>
+<div class="full-overlay blur-backdrop">
+	<div class="full-overlay overlay-with-nav">
+		<div class={activeItemClass}>
+			<Projectcard data={activeData}/>
+			<button class="close-button right" onclick={() => window.location.assign(resolve('/projects'))}>
+				<img src={xIcon} alt="X"/>
+			</button>
+		</div>
 	</div>
-	
 </div>
 {/if}
 
@@ -83,13 +96,22 @@
 		place-items: start center;
 	}
 
-	.full {
+	.full, .full-overlay {
 		position: absolute;
 		left: 0;
 		top: 3.5em;
 		right: 0;
 		bottom: 0;
 		/* padding: 0.5em; */
+	}
+
+	.full-overlay {
+		position: fixed;
+		top: 0;
+	}
+
+	.overlay-with-nav {
+		top: 3.5em;
 	}
 
 	.blur-backdrop {
@@ -117,13 +139,14 @@
 		/* text-align: center; */
 		margin: 0.5em;
 		/* width: 40em; */
-		height: 12em;
+		height: 20em;
 		overflow: hidden;
 		position: relative;
 	}
 
 	.project-item-portrait {
-		width: 100%
+		width: 100%;
+		height: 15em;
 	}
 
 	.active-item, .active-item-portrait {
@@ -176,7 +199,7 @@
 
 	.item-button {
 		border: none;
-		background-color: none;
+		background-color: #000A;
 		position: absolute;
 		width: 100%;
 		height: 100%;
@@ -196,11 +219,33 @@
 		border-radius: 1em;
 		width: 2em;
 		height: 2em;
+		padding: 6px;
 		cursor: pointer;
 	}
 
 	.close-button:hover {
 		background-color: #333A;
+	}
+
+	.tag-container {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+
+	.tag, .tag-last {
+		border-radius: 6px;
+		border: none;
+		background-color: #000A;
+		color: #DDD;
+		font-family: "Fira-ExtraLight";
+		font-size: small;
+		/* margin-right: 0.5em; */
+		padding: 2px 8px;
+	}
+
+	.tag {
+		margin-right: 6px;
 	}
 
 	.bottom {

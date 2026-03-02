@@ -42,6 +42,8 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
+{@render children()}
+
 {#if routeMapping != "bg-gen"}
 <div class="top-nav">
 	{#if routeMapping}
@@ -55,8 +57,6 @@
 	{/if}
 </div>
 {/if}
-
-{@render children()}
 
 <style>
 	@font-face {
@@ -73,7 +73,7 @@
 	}
 
 	.top-nav {
-		position: absolute;
+		position: fixed;
 		left: 0;
 		top: 0;
 		right: 0;

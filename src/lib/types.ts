@@ -8,6 +8,7 @@ export interface ProjectData {
 	title: string;
 	subtitle: string;
 	tags?: TagLink[];
+	categories?: string[];
 	aspect: number;
 	previewImage: string;
 	previewVideo?: string;
