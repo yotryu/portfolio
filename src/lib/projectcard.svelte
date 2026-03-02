@@ -34,8 +34,10 @@
 		<div class="content">
 			{#if expandBottom}
 				<div class="top">
-					<h2 class="title">{data.title}</h2>
-					<p class="subtitle">{data.subtitle}</p>
+					<div class="top-content">
+						<h2 class="title">{data.title}</h2>
+						<p class="subtitle">{data.subtitle}</p>
+					</div>
 
 					{#if data.tags && data.tags.length > 0}
 						<div class="tag-container">
@@ -134,6 +136,7 @@
 
 	.small-button:hover {
 		background-color: #333A;
+		cursor: pointer;
 	}
 
 	.button-image {
@@ -150,14 +153,20 @@
 		bottom: 1em;
 	}
 
-	.bottom-content {
+	.bottom-content, .top-content {
 		background-color: #000A;
 		padding: 1px 1em;
 		border-radius: 12px;
 	}
 
+	.top-content {
+		width: calc(100% - 2em);
+		padding-bottom: 1px;
+		margin-bottom: 0.5em;
+	}
+
 	.top {
-		margin: 0 0.5em;
+		/* margin: 0 0.5em; */
 	}
 
 	.title {
@@ -167,7 +176,11 @@
 	.subtitle {
 		font-size: small;
 		margin-top: 0.5em;
-		/* margin-bottom: 2em; */
+		margin-bottom: 0.7em;
+	}
+
+	.tag-container {
+		margin-left: 0.5em;
 	}
 
 	.tag-button {

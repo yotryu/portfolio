@@ -85,8 +85,8 @@ export const FullProjectData: AllProjectData = {
 		},
 		{
 			id: "sackboy",
-			title: "Sackboy™: A Big Adventure",
-			subtitle: "Platforming adventure set in the LittleBigPlanet™ universe",
+			title: "Sackboy: A Big Adventure",
+			subtitle: "Platforming adventure set in the LittleBigPlanet universe",
 			categories: ["Game", "Professional"],
 			tags: [
 				{
@@ -101,7 +101,7 @@ export const FullProjectData: AllProjectData = {
 			aspect: 1.5,
 			previewImage: "https://lh3.googleusercontent.com/d/1LP-6gD9Gm2kVRsENm_S4N5Sj94NsLgET?authuser=0",
 			// previewVideo: "https://www.dropbox.com/scl/fi/jdn1qesf1jt4r6cje6r3e/Geo-Prism-Live-Wallpaper-demo.mp4?rlkey=937vp272svrh8kggtlftitw6g&st=eunhr39u&raw=1",
-			description: "This was a huge project being made by Sumo Digital. I was brought on to assist The Eccentric Ape (TEA) in optimisation of the game before its launch on PlayStation platforms.\nMost of the work for the PlayStation release involved converting Unreal Blueprints to C++ and optimising functionality based on guidelines.\nFollowing from this, TEA worked on the PC / Steam port, during which most of my effort was on all the different types of gamepad controls to be supported, and making sure player drop-in and drop-out worked well with a combination of local (when a new gamepad is connected) and networked players.\nMade in Unreal (UE5). Developed by Sumo Digital. Game by Sony Interactive Entertainment / PlayStation Studios"
+			description: "This was a huge project being made by Sumo Digital. I was brought on to assist The Eccentric Ape (TEA) in optimisation of the game before its launch on PlayStation platforms.\nMost of the work for the PlayStation release involved converting Unreal Blueprints to C++ and optimising functionality based on guidelines.\nFollowing from this, TEA worked on the PC / Steam port, during which most of my effort was on all the different types of gamepad controls to be supported, and making sure player drop-in and drop-out worked well with a combination of local (when a new gamepad is connected) and networked players.\nMade in Unreal (UE5).\nDeveloped by Sumo Digital. Game by Sony Interactive Entertainment / PlayStation Studios"
 		},
 		{
 			id: "cf",
@@ -189,8 +189,8 @@ export const FullProjectData: AllProjectData = {
 		},
 		{
 			id: "fruit-ninja-2",
-			title: "Fruit Ninja 2®",
-			subtitle: "Multiplayer + powerup focused follow-up to Fruit Ninja®",
+			title: "Fruit Ninja 2",
+			subtitle: "Multiplayer + powerup focused follow-up to Fruit Ninja",
 			categories: ["Game", "Professional"],
 			tags: [
 				{
@@ -205,7 +205,7 @@ export const FullProjectData: AllProjectData = {
 			aspect: 1.5,
 			previewImage: "https://lh3.googleusercontent.com/d/1sCbU-UC74n11MM9YsC1r1ss5Q9ag_6Hk?authuser=0",
 			// previewVideo: "https://www.dropbox.com/scl/fi/s7cxsatjxm4ci0k7na5he/lightning-wallpaper-demo.mp4?rlkey=jsxyg3hli1ohzp6jzu09ztbgg&st=8g42o5ar&raw=1",
-			description: "After working on updates for the original Fruit Ninja® for quite a while, an opportunity arose to work on a multiplayer-focused follow up.\nI was part of the original team for Fruit Ninja 2®, working alongside a small group of passionate devs to bring multiplayer with user-triggerable powerups / abilities to the Fruit Ninja® universe.\nI was involved from the start through early access, but ultimately left the company before the v1.0 release.\nMade in Unity with Photon networking (at the time at least).\nGame ⓒ Halfbrick Studios"
+			description: "After working on updates for the original Fruit Ninja for quite a while, an opportunity arose to work on a multiplayer-focused follow up.\nI was part of the original team for Fruit Ninja 2, working alongside a small group of passionate devs to bring multiplayer with user-triggerable powerups / abilities to the Fruit Ninja® universe.\nI was involved from the start through early access, but ultimately left the company before the v1.0 release.\nMade in Unity with Photon networking (at the time at least).\nGame ⓒ Halfbrick Studios"
 		},
 		{
 			id: "lightning-wallpaper",
@@ -225,7 +225,7 @@ export const FullProjectData: AllProjectData = {
 		},
 		{
 			id: "fruit-ninja",
-			title: "Fruit Ninja®",
+			title: "Fruit Ninja",
 			subtitle: "Touchscreen gaming smash hit",
 			categories: ["Game", "Professional"],
 			tags: [

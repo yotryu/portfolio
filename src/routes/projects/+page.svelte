@@ -64,6 +64,10 @@
 			</div>
 		{/each}
 	</div>
+
+	<div class="footer">
+		<p>All Rights to their respective owners. See details of each project for attribution info.</p>
+	</div>
 </div>
 
 <!-- Active project display -->
@@ -216,7 +220,7 @@
 		background-color: #000A;
 		color: azure;
 		z-index: 11;
-		border-radius: 1em;
+		border-radius: 12px;
 		width: 2em;
 		height: 2em;
 		padding: 6px;
@@ -300,6 +304,14 @@
 	}
 
 	.body-text {
+		font-family: "Fira-ExtraLight";
+		font-size: smaller;
+		color: #BBB;
+	}
+
+	.footer {
+		margin: auto;
+		text-align: center;
 		font-family: "Fira-ExtraLight";
 		font-size: smaller;
 		color: #BBB;
