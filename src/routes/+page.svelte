@@ -237,6 +237,7 @@
 		height: 3em;
 		/* position: relative; */
 		cursor: pointer;
+		transition: all 0.3s ease;
 	}
 
 	.projects-portrait {
