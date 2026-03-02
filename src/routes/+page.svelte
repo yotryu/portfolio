@@ -78,7 +78,8 @@
 		<div class={profileClass}>
 			<img class="circle-pfp" src={pfpImage} alt="">
 			<!-- <h2 class="title">Jonathan Law</h2> -->
-			<p>Hi, I'm Jonathan, a software developer with a huge passion for video games who loves to make things with other passionate and awesome people!</p>
+			<p>Hi, I'm Jonathan, a software developer with a passion for video games and who loves to make things with other awesome people!</p>
+			<p>With over 12 years experience in the games industry, I've worked on smaller mobile titles, huge AAA console titles, and plenty of tools and supporting software throughout.</p>
 		</div>
 	</div>
 

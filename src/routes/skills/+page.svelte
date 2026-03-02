@@ -18,8 +18,8 @@
 		{
 			header: "Strong Programming capability",
 			items: [
-				"C# / .NET",
-				"C++",
+				"C# / .NET (Unity, Godot, WinForms, Command Line Tools)",
+				"C++ (Unreal, Custom Engines)",
 				"Javascript / Typescript",
 				"Node.js",
 				"Objective-C / C++",
@@ -41,9 +41,9 @@
 		{
 			header: "Prototyping",
 			items: [
-				"Game James",
-				"Personal projects",
-				"Feature ideation and testing",
+				"Game Jams (mostly employer-driven, with exposure to lots of prototyping across different teams)",
+				"Personal projects (games, curiosity apps, websites)",
+				"Feature ideation and testing (brainstorming, testing, iterating)",
 				"Collaborative iteration"
 			]
 		},
