@@ -21,6 +21,11 @@
 	onMount(() => {
 		const activeItem = new URLSearchParams(window.location.search).get("active") || "";
 		activeData = data.projects.find(i => i.id == activeItem);
+
+		const images: NodeListOf<HTMLImageElement> = document.querySelectorAll("img[data-src]");
+		images.forEach((img: HTMLImageElement, index) => {
+			setTimeout(() => img.src = img.dataset.src ? img.dataset.src : "", index * 100);
+		});
 	});
 </script>
 
@@ -35,7 +40,7 @@
 			{@const greyClass = !activeData || project.id != activeData.id ? "greyscale" : ""}
 			<div class={projectItemClass}>
 				<button class="item-button" onclick={() => window.location.assign(resolve(`/projects`) + `?active=${project.id}`)}>
-					<img class="background-fill {greyClass}" src={project.previewImage} alt=""/>
+					<img class="background-fill fade-in {greyClass}" data-src={project.previewImage} alt="" onload={(evt) => (<HTMLElement>(evt.target)).style.opacity = "1"}/>
 				</button>
 
 				<div class="content" inert>
@@ -242,6 +247,11 @@
 
 	.greyscale:hover {
 		filter: brightness(100%);
+	}
+
+	.fade-in {
+		opacity: 0;
+		transition: all 0.3s ease;
 	}
 
 	.body-text {
