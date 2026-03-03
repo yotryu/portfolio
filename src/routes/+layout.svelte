@@ -23,6 +23,10 @@
 			name: "Interests"
 		},
 		{
+			path: "privacy-policy",
+			name: "Privacy Policy"
+		},
+		{
 			path: "bg-gen",
 			name: "bg-gen"
 		}
