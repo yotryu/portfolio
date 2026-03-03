@@ -21,7 +21,7 @@
 				<p class="body-text">The following apps are all completely free of any data collection:</p>
 				<ul>
 					<li class="body-text">Lightning Live Wallpaper</li>
-					<li class="body-text">Geo Grid Wallpaper</li>
+					<li class="body-text">Geo Prism Live Wallpaper</li>
 					<li class="body-text">Starazius</li>
 				</ul>
 

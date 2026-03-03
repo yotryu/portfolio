@@ -69,7 +69,7 @@ export const FullProjectData: AllProjectData = {
 		},
 		{
 			id: "geogrid-wallpaper",
-			title: "Geo Grid Wallpaper",
+			title: "Geo Prism Live Wallpaper",
 			subtitle: "Abstract geometric art-inspired live wallpaper for Android",
 			categories: ["App", "Indie"],
 			tags: [
