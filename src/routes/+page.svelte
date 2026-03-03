@@ -13,53 +13,6 @@
 	let experienceClass = $derived(isPortrait ? "experience-portrait" : "experience");
 	let skillsClass = $derived(isPortrait ? "skills-portrait" : "skills");
 	let hobbiesClass = $derived(isPortrait ? "hobbies-portrait" : "hobbies");
-
-	interface ChunkData {
-		linkId?: string;
-		header: string;
-		text?: string;
-		textList?: string[] | string[][];
-		iconPath?: string;
-	}
-
-	const chunkData: ChunkData[] = [
-		{
-			linkId: "/projects",
-			header: "Projects",
-			text: "Primarily focused on video games, I've worked on AAA console and PC titles, mobile free-to-play, and small team / individual indie titles over the years."
-		},
-		{
-			linkId: "/experience",
-			header: "Experience",
-			text: "Over 12 years experience as a software programmer in the games industry, with supporting roles in production and team leadership at different times."
-		},
-		{
-			header: "Skills",
-			textList: [
-				["Strong programming capability"],
-				["C# / .NET", "C++", "Javascript / Typescript", "Node.js", "Objective-C", "Java", "Python", "Svelte", "React", "AppScript"],
-				["Strong Game Engine knowledge"],
-				["Unity", "Unreal (UE5; from source; build tools)", "Godot"],
-				["Prototyping"],
-				["Game Jams", "Personal projects", "Feature ideation and testing", "Collaborative iteration"],
-				["Production"],
-				[
-					"Running Scrum ceremonies (standup, stakeholder review, retrospective)",
-					"Setting up project tracking software (Jira, Clickup)",
-					"Collecting feedback throughout all phases of development and post-release",
-					"Running playtests",
-					"Storefront setup (iOS App Store, Play Store, Steam)",
-					"Storefront automation tools development and integration",
-					"CI setup and usage (Jenkins, Teamcity)",
-					"Product releases / Storefront approvals"
-				]
-			]
-		},
-		{
-			header: "Hobbies",
-			text: "Other hobbies"
-		}
-	];
 </script>
 
 <!-- Bind innerWidth and innerHeight so we can pick layout based on aspect ratio -->
@@ -79,7 +32,7 @@
 			<img class="circle-pfp" src={pfpImage} alt="">
 			<!-- <h2 class="title">Jonathan Law</h2> -->
 			<p>Hi, I'm Jonathan, a software developer with a passion for video games and who loves to make things with other awesome people!</p>
-			<p>With over 12 years experience in the games industry, I've worked on smaller mobile titles, huge AAA console titles, and plenty of tools and supporting software throughout.</p>
+			<p>With over 12 years experience in the games industry, I've worked on smaller mobile titles, large AAA console titles, and plenty of tools and supporting software throughout.</p>
 		</div>
 	</div>
 

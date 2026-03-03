@@ -10,7 +10,7 @@
 	let chunkClass = $derived(isPortrait ? "chunk-portrait" : "chunk");
 
 	interface ChunkData {
-		company: string;
+		company: string[];
 		position: string;
 		timeframe: string;
 		items: string[];
@@ -18,7 +18,7 @@
 
 	const chunks: ChunkData[] = [
 		{
-			company: "The Tea Division",
+			company: ["The Tea Division"],
 			position: "Senior Programmer / Project Lead",
 			timeframe: "October 2023 - December 2025",
 			items: [
@@ -40,7 +40,7 @@
 			]
 		},
 		{
-			company: "The Eccentric Ape - A Dapper Labs Company",
+			company: ["The Eccentric Ape -", "A Dapper Labs Company"],
 			position: "Senior Programmer",
 			timeframe: "December 2021 - September 2023",
 			items: [
@@ -54,7 +54,7 @@
 			]
 		},
 		{
-			company: "The Eccentric Ape",
+			company: ["The Eccentric Ape"],
 			position: "Contract Programmer",
 			timeframe: "March 2020 - December 2021",
 			items: [
@@ -69,7 +69,7 @@
 			]
 		},
 		{
-			company: "Protostar Games",
+			company: ["Protostar Games"],
 			position: "Contract Programmer / Tools Developer",
 			timeframe: "June 2019 - August 2019",
 			items: [
@@ -79,7 +79,7 @@
 			]
 		},
 		{
-			company: "Halfbrick Studios",
+			company: ["Halfbrick Studios"],
 			position: "Programmer / Game Developer",
 			timeframe: "July 2012 - November 2018",
 			items: [
@@ -107,7 +107,7 @@
 			]
 		},
 		{
-			company: "Queensland University of Technology (QUT)",
+			company: ["Queensland University of", "Technology (QUT)"],
 			position: "Research and Development Assistant",
 			timeframe: "December 2011 - March 2012",
 			items: [
@@ -128,7 +128,7 @@
 			]
 		},
 		{
-			company: "JB Hifi",
+			company: ["JB Hifi"],
 			position: "Software Advisor (Games)",
 			timeframe: "October 2008 - February 2011",
 			items: [
@@ -147,7 +147,7 @@
 			]
 		},
 		{
-			company: "McDonalds",
+			company: ["McDonalds"],
 			position: "Crew Chief / Crew Trainer / Crew Member",
 			timeframe: "April 2003 - September 2008",
 			items: [
@@ -176,7 +176,9 @@
 		<div class={itemsContainerClass}>
 			{#each chunks as chunk}
 				<div class={chunkClass}>
-					<h3 class="title">{chunk.company}</h3>
+					{#each chunk.company as comp}
+						<h3 class="title">{comp}</h3>
+					{/each}
 					<p class="subtitle right">{chunk.timeframe}</p>
 					<p class="position-title">{chunk.position}</p>
 					<ul>
@@ -322,6 +324,7 @@
 	.title {
 		margin: 0.5em 0 0 0.3em;
 		font-family: "Fira-Regular";
+		line-height: 0.7em;
 	}
 
 	.subtitle, .position-title {

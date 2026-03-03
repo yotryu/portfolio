@@ -291,7 +291,7 @@
 	}
 
 	.greyscale {
-		filter: brightness(40%);
+		filter: brightness(60%);
 	}
 
 	.greyscale:hover {

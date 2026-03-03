@@ -53,13 +53,13 @@ export const FullProjectData: AllProjectData = {
 			subtitle: "'Passive Shooter' concept with focus on patterns and execution skill",
 			categories: ["Game", "Indie"],
 			tags: [
+				// {
+				// 	"text": "Android",
+				// 	"url": ""
+				// },
 				{
-					"text": "Android",
-					"url": ""
-				},
-				{
-					"text": "Desktop",
-					"url": ""
+					"text": "itch.io",
+					"url": "https://yotryu.itch.io/prototype-ps?password=ewuigvd9345SD"
 				}
 			],
 			aspect: 0.8,
@@ -109,13 +109,13 @@ export const FullProjectData: AllProjectData = {
 			subtitle: "'Collect Frenzy' concept with single input mechanic, single screen arcade game",
 			categories: ["Game", "Indie"],
 			tags: [
+				// {
+				// 	"text": "Android",
+				// 	"url": ""
+				// },
 				{
-					"text": "Android",
-					"url": ""
-				},
-				{
-					"text": "Desktop",
-					"url": ""
+					"text": "itch.io",
+					"url": "https://yotryu.itch.io/prototype-cf?password=ASD2qe908dasj"
 				}
 			],
 			aspect: 0.8,
@@ -129,14 +129,14 @@ export const FullProjectData: AllProjectData = {
 			subtitle: "Arcade style top-down shooter with roguelike elements",
 			categories: ["Game", "Indie"],
 			tags: [
-				{
-					"text": "Android",
-					"url": ""
-				},
-				{
-					"text": "iOS",
-					"url": ""
-		 		},
+				// {
+				// 	"text": "Android",
+				// 	"url": ""
+				// },
+				// {
+				// 	"text": "iOS",
+				// 	"url": ""
+		 		// },
 				{
 					"text": "Steam",
 					"url": "https://store.steampowered.com/app/1157100/Starazius/"
