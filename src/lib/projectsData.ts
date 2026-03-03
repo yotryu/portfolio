@@ -74,7 +74,7 @@ export const FullProjectData: AllProjectData = {
 			categories: ["App", "Indie"],
 			tags: [
 				{
-					"text": "Android",
+					"text": "Android (Coming soon)",
 					"url": ""
 				}
 			],
@@ -214,7 +214,7 @@ export const FullProjectData: AllProjectData = {
 			categories: ["App", "Indie"],
 			tags: [
 				{
-					"text": "Android",
+					"text": "Android (Coming soon)",
 					"url": ""
 				}
 			],
