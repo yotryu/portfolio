@@ -25,7 +25,14 @@
 			<source src="https://www.dropbox.com/scl/fi/czrdhlm4o01rx86kf41l6/portfolio_collage_loop.mp4?rlkey=t6am0iz6g1oa9zyjz7mcypbip&st=u9qzl719&raw=1" type="video/mp4">
 			Your browser does not support the video tag.
 		</video>
+
+		<div class="bottom">
+			<div class="bottom-content">
+				<p>Site made by Jonathan Law using svelte-kit</p>
+			</div>
+		</div>
 	</div>
+
 	<!-- Profile -->
 	<div class={rowClass}>
 		<div class={profileClass}>
@@ -252,7 +259,14 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-		padding: 1em 1em 0.5em 1em;
+		/* padding: 1em 1em 0.5em 1em; */
+	}
+
+	.bottom-content {
+		font-size: smaller;
+		margin: auto;
+		text-align: center;
+		color: #DDD;
 	}
 
 	.chunk-button, .no-button {
